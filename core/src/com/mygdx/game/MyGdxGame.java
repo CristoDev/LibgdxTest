@@ -54,7 +54,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		image1.setPosition(posX, posY);
 		image1.rotateBy(1);
 
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClearColor(1, (float)0.4, (float)0.1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		/*
 		batch.begin();

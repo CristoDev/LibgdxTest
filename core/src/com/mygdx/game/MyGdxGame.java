@@ -10,12 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MyGdxGame extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
+	private SpriteBatch batch;
+	private Texture img;
 	private Stage stage;
-	Image image1;
+	private Image image1;
 
-	int moveX=1, moveY=2, posX=0, posY=0;
+	private int moveX=1, moveY=2, posX=0, posY=0;
 	
 	@Override
 	public void create () {
@@ -25,7 +25,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		image1 = new Image(img);
 		posX=(int)(Gdx.graphics.getWidth()/3-image1.getWidth()/2);
 		posY=(int)(Gdx.graphics.getHeight()*2/3-image1.getHeight()/2);
-		image1.setPosition(Gdx.graphics.getWidth()/3-image1.getWidth()/2,Gdx.graphics.getHeight()*2/3-image1.getHeight()/2);
+		image1.setPosition((int)(Gdx.graphics.getWidth()/3-image1.getWidth()/2),(int)(Gdx.graphics.getHeight()*2/3-image1.getHeight()/2));
 		stage.addActor(image1);
 	}
 

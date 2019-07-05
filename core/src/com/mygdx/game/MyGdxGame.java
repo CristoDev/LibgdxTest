@@ -15,7 +15,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Stage stage;
 	private Image image1;
 
-	private int moveX=5, moveY=2, posX=0, posY=0;
+	private int moveX=5, moveY=2, posX=50, posY=80;
 	
 	@Override
 	public void create () {

@@ -3,7 +3,6 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -11,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -28,9 +26,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	private int moveX=5, moveY=2, posX=50, posY=80;
 	private double red=0.5, green=0.33, blue=0.84, deltaRed=0.017, deltaGreen=0.021, deltaBlue=0.013;
 
-	public final AssetManager manager = new AssetManager();
-	private TextureAtlas atlas;
-
 
 	@Override
 	public void create () {
@@ -45,7 +40,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		winBook.createWindowFromBook();
 		winBook.setVisible(true);
 		winBook.setMovable(true);
-		winBook.setPosition((int)(Gdx.graphics.getWidth()/2), (int)(Gdx.graphics.getHeight()/2));
+		winBook.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 		stage.addActor(winBook);
 	}
 

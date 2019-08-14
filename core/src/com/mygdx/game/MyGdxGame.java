@@ -30,7 +30,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	public final AssetManager manager = new AssetManager();
 	private TextureAtlas atlas;
 
-	
+
 	@Override
 	public void create () {
 		stage = new Stage(new ScreenViewport());

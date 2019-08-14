@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -36,27 +37,16 @@ public class MyGdxGame extends ApplicationAdapter {
 		stage = new Stage(new ScreenViewport());
 
 		createWindowFromBook();
-		createWindowFromCode();
 		createButton();
 	}
 
 	private void createWindowFromBook() {
-		winBook = new MyWindow("Fenêtre BOOK");
+		winBook = new MyWindow("Fenetre BOOK");
 		winBook.createWindowFromBook();
 		winBook.setVisible(true);
 		winBook.setMovable(true);
 		winBook.setPosition((int)(Gdx.graphics.getWidth()/2), (int)(Gdx.graphics.getHeight()/2));
 		stage.addActor(winBook);
-	}
-
-	private void createWindowFromCode() {
-		winCode = new MyWindow("Fenêtre CODE");
-		winCode.createWindowFromCode();
-		winCode.setVisible(true);
-		winCode.setMovable(true);
-		winCode.setPosition(10, 0);
-		stage.addActor(winCode);
-
 	}
 
 

@@ -31,16 +31,15 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		stage = new Stage(new ScreenViewport());
-
+		// permet de pouvoir bouger la fenetre winBook
+		Gdx.input.setInputProcessor(stage);
 		createWindowFromBook();
 		createButton();
 	}
 
 	private void createWindowFromBook() {
-		winBook = new MyWindow("Fenetre BOOK");
+		winBook = new MyWindow("Fenetre BOOK\nblabla titre suite?");
 		winBook.createWindowFromBook();
-		winBook.setVisible(true);
-		winBook.setMovable(true);
 		winBook.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 		stage.addActor(winBook);
 	}
@@ -54,6 +53,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		// Instantiate the Button itself.
 		TextButton button = new TextButton("hello world from blabablabalb and ablblbalbabl\nnew line\n\n\n\n\n\n\n\net 8 de plus", style);
 		// add button to stage
+
 		stage.addActor(button);
 	}
 
@@ -115,14 +115,16 @@ public class MyGdxGame extends ApplicationAdapter {
 		image1.setPosition(posX, posY);
 		image1.rotateBy(1);
 
-		Gdx.gl.glClearColor((float)this.red, (float)this.green, (float)this.blue, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 
 	}
 
 	@Override
 	public void render () {
+
 		//renderColor();
+		Gdx.gl.glClearColor((float)this.red, (float)this.green, (float)this.blue, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act();
 		stage.draw();
 	}

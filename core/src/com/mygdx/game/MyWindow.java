@@ -2,10 +2,14 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
 
@@ -41,13 +45,22 @@ public class MyWindow extends Window {
         defaults().expand().fill();
 
         //account for the title padding
-        this.pad(this.getPadTop() + 10, 10, 10, 10);
+        pad(this.getPadTop() + 10, 10, 10, 10);
 
-        this.add(hpLabel);
-        this.add(hp).align(Align.left);
-        this.row();
+        add(hpLabel);
+        add(hp).align(Align.left);
+        row();
 
-        this.pack();
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(0.1f, 0.2f, 0.5f, 1);
+        pixmap.fill();
+        //setBackground(new TextureRegionDrawable(new TextureRegion(new  Texture(pixmap))));
+        setBackground(new TextureRegionDrawable(new  Texture(pixmap)));
+
+        pack();
+
+        setVisible(true);
+        setMovable(true);
     }
 
 

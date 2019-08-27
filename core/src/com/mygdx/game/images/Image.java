@@ -67,6 +67,13 @@ public class Image extends ApplicationAdapter {
             FileHandle tmp=data[i];
             if (tmp.isDirectory()) {
                 Gdx.app.debug(TAG, "repertoire "+tmp.name());
+                FileHandle xfile=Gdx.files.internal(tmp.path());
+                FileHandle[] xdata=xfile.list();
+                for (int xi=0; xi<xdata.length; xi++) {
+                    FileHandle xtmp = xdata[xi];
+                    Gdx.app.debug(TAG, "N2 "+xtmp.name());
+                }
+
             }
             else {
                 Gdx.app.debug(TAG, "fichier "+tmp.name());

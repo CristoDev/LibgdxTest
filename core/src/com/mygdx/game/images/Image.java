@@ -2,6 +2,7 @@ package com.mygdx.game.images;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -57,6 +58,21 @@ public class Image extends ApplicationAdapter {
         p.init();
         createSprite();
         createCombinedSprites();
+
+        Gdx.app.debug(TAG, "local path:" +Gdx.files.getLocalStoragePath());
+        FileHandle hfile=Gdx.files.internal("./");
+        FileHandle[] data=hfile.list();
+
+        for (int i=0; i<data.length; i++) {
+            FileHandle tmp=data[i];
+            if (tmp.isDirectory()) {
+                Gdx.app.debug(TAG, "repertoire "+tmp.name());
+            }
+            else {
+                Gdx.app.debug(TAG, "fichier "+tmp.name());
+            }
+        }
+
     }
 
     public void createSprite() {

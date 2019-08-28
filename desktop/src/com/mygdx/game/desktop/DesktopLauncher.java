@@ -11,10 +11,10 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-		config.title="BludBourne v0.8";
+		config.title="images";
 		config.useGL30=false;
-		config.width=1027;
-		config.height=768;
+		config.width=400;
+		config.height=400;
 
 		Application app=new LwjglApplication(new Image(), config);
 		//Application app=new LwjglApplication(new MyGdxGame(), config);

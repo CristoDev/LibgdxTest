@@ -1,9 +1,10 @@
-package com.mygdx.game.images;
+package com.mygdx.game.spritesheet;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.TextureLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -11,53 +12,28 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
-public class Player {
+public class Player extends Character {
+    /*
     public Animation walk;
     public static final AssetManager _assetManager = new AssetManager();
     private static InternalFileHandleResolver _filePathResolver =  new InternalFileHandleResolver();
-    private static final String _defaultSpritePath = "images/orc.png";
-    private static final String TAG = Player.class.getSimpleName();
+    private static final String _defaultSpritePath = "images/light.png";
+    int left=9, up=8, down=10, right=11;
 
     private Animation _walkLeftAnimation;
     private Array<TextureRegion> _walkLeftFrames;
 
     protected float _frameTime = 0f;
+    protected float frameDuration=0.07f;
     protected Sprite _frameSprite = null;
     protected TextureRegion _currentFrame = null;
 
     public final int FRAME_WIDTH = 64;
     public final int FRAME_HEIGHT = 64;
-
+*/
 
     public Player() {
-    }
-
-    public void init() {
-        // charger le fichier d'images
-        loadTextureAsset(_defaultSpritePath);
-        loadDefaultSprite();
-        loadAllAnimations();
-    }
-
-    public static void loadTextureAsset(String textureFilenamePath){
-        if( textureFilenamePath == null || textureFilenamePath.isEmpty() ){
-            return;
-        }
-
-        if( _assetManager.isLoaded(textureFilenamePath) ){
-            return;
-        }
-
-        //load asset
-        if( _filePathResolver.resolve(textureFilenamePath).exists() ){
-            _assetManager.setLoader(Texture.class, new TextureLoader(_filePathResolver));
-            _assetManager.load(textureFilenamePath, Texture.class);
-            //Until we add loading screen, just block until we load the map
-            _assetManager.finishLoadingAsset(textureFilenamePath);
-        }
-        else{
-            Gdx.app.debug(TAG, "loadTextureAsset::Texture doesn't exist!: " + textureFilenamePath );
-        }
+        TAG = this.getClass().getSimpleName();
     }
 
     public static Texture getTextureAsset(String textureFilenamePath) {
@@ -73,7 +49,7 @@ public class Player {
         return texture;
     }
 
-    private void loadDefaultSprite()
+    protected void loadDefaultSprite()
     {
         Texture texture = getTextureAsset(_defaultSpritePath);
         TextureRegion[][] textureFrames = TextureRegion.split(texture, FRAME_WIDTH, FRAME_HEIGHT);
@@ -81,14 +57,19 @@ public class Player {
         _currentFrame = textureFrames[9][0];
     }
 
-    private void loadAllAnimations(){
-        //Walking animation
-        Texture texture = getTextureAsset(_defaultSpritePath);
+    protected void loadAllAnimations(){
+        Pixmap player=new Pixmap(Gdx.files.internal("images/light.png"));
+        // pour l'ordre utiliser linkedHashMap
+        player.drawPixmap(new Pixmap(Gdx.files.internal("images/mail_male.png")), 0, 0);
+        player.drawPixmap(new Pixmap(Gdx.files.internal("images/jacket_male.png")), 0, 0);
+        player.drawPixmap(new Pixmap(Gdx.files.internal("images/light-blonde.png")), 0, 0);
+
+        Texture texture = new Texture(player);
         TextureRegion[][] textureFrames = TextureRegion.split(texture, FRAME_WIDTH, FRAME_HEIGHT);
         _walkLeftFrames = new Array<TextureRegion>(9);
 
         for (int i = 0; i < 9; i++) {
-            TextureRegion region = textureFrames[9][i];
+            TextureRegion region = textureFrames[right][i];
             if( region == null ){
                 Gdx.app.debug(TAG, "loadAllAnimations::Got null animation frame " + i);
             }
@@ -101,16 +82,8 @@ public class Player {
     }
 
 
-
-    public void update(float delta){
-        _frameTime = (_frameTime + delta)%5; //Want to avoid overflow
-        _currentFrame=(TextureRegion)_walkLeftAnimation.getKeyFrame(_frameTime);
-        //Gdx.app.debug(TAG, "Player::update "+_walkLeftAnimation.getKeyFrameIndex(_frameTime));
-    }
-
     public void render (SpriteBatch batch) {
-        batch.draw(_currentFrame, 100, 50, 64, 64);
-
+        batch.draw(_currentFrame, 200, 50, FRAME_WIDTH*2, FRAME_HEIGHT*2);
     }
 }
 

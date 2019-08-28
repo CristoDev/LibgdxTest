@@ -18,6 +18,7 @@ public class Player extends Character {
         set_defaultSpritePath("body/male/light.png");
     }
 
+    /*
     protected void loadDefaultSprite()
     {
         Texture texture = getTextureAsset(_defaultSpritePath);
@@ -25,6 +26,7 @@ public class Player extends Character {
         _frameSprite = new Sprite(textureFrames[9][0].getTexture(), 0,0,FRAME_WIDTH, FRAME_HEIGHT);
         _currentFrame = textureFrames[9][0];
     }
+    */
 
     protected void loadAllAnimations(){
         Pixmap player=new Pixmap(Gdx.files.internal(ROOTPATH+"body/male/light.png"));

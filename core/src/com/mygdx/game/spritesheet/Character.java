@@ -30,13 +30,39 @@ public abstract class Character {
     protected int FRAME_WIDTH = 64;
     protected int FRAME_HEIGHT = 64;
 
-    abstract protected void loadDefaultSprite();
-    abstract protected void loadAllAnimations();
+    //abstract protected void loadDefaultSprite();
+    //abstract protected void loadAllAnimations();
 
     public void init() {
         loadTextureAsset(_defaultSpritePath);
         loadDefaultSprite();
         loadAllAnimations();
+    }
+
+    protected void loadDefaultSprite()
+    {
+        Texture texture = getTextureAsset(_defaultSpritePath);
+        TextureRegion[][] textureFrames = TextureRegion.split(texture, FRAME_WIDTH, FRAME_HEIGHT);
+        _frameSprite = new Sprite(textureFrames[9][0].getTexture(), 0,0,FRAME_WIDTH, FRAME_HEIGHT);
+        _currentFrame = textureFrames[9][0];
+    }
+
+    protected void loadAllAnimations(){
+        Texture texture = getTextureAsset(_defaultSpritePath);
+        TextureRegion[][] textureFrames = TextureRegion.split(texture, FRAME_WIDTH, FRAME_HEIGHT);
+        _walkLeftFrames = new Array<TextureRegion>(9);
+
+        for (int i = 0; i < 9; i++) {
+            TextureRegion region = textureFrames[left][i];
+            if( region == null ){
+                Gdx.app.debug(TAG, "loadAllAnimations::Got null animation frame " + i);
+            }
+            _walkLeftFrames.insert(i, region);
+        }
+
+        _walkLeftAnimation = new Animation(frameDuration, _walkLeftFrames, Animation.PlayMode.LOOP);
+
+        _currentFrame = (TextureRegion)_walkLeftAnimation.getKeyFrame(_frameTime);
     }
 
     public static void loadTextureAsset(String textureFilenamePath){

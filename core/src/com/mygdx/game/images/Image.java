@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.spritesheet.SpriteSheet;
 
 public class Image extends ApplicationAdapter {
     SpriteBatch batch;
@@ -59,6 +60,7 @@ public class Image extends ApplicationAdapter {
         createSprite();
         createCombinedSprites();
 
+        /*
         Gdx.app.debug(TAG, "local path:" +Gdx.files.getLocalStoragePath());
         FileHandle hfile=Gdx.files.internal("./");
         FileHandle[] data=hfile.list();
@@ -79,6 +81,9 @@ public class Image extends ApplicationAdapter {
                 Gdx.app.debug(TAG, "fichier "+tmp.name());
             }
         }
+        */
+        SpriteSheet ss=new SpriteSheet();
+
 
     }
 

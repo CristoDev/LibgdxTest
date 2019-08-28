@@ -13,40 +13,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
 public class Player extends Character {
-    /*
-    public Animation walk;
-    public static final AssetManager _assetManager = new AssetManager();
-    private static InternalFileHandleResolver _filePathResolver =  new InternalFileHandleResolver();
-    private static final String _defaultSpritePath = "images/light.png";
-    int left=9, up=8, down=10, right=11;
-
-    private Animation _walkLeftAnimation;
-    private Array<TextureRegion> _walkLeftFrames;
-
-    protected float _frameTime = 0f;
-    protected float frameDuration=0.07f;
-    protected Sprite _frameSprite = null;
-    protected TextureRegion _currentFrame = null;
-
-    public final int FRAME_WIDTH = 64;
-    public final int FRAME_HEIGHT = 64;
-*/
-
     public Player() {
         TAG = this.getClass().getSimpleName();
-    }
-
-    public static Texture getTextureAsset(String textureFilenamePath) {
-        Texture texture=null;
-
-        if (_assetManager.isLoaded(textureFilenamePath)) {
-            texture= _assetManager.get(textureFilenamePath, Texture.class);
-        }
-        else {
-            Gdx.app.debug(TAG, "getTextureAsset::Texture is not loaded "+ textureFilenamePath);
-        }
-
-        return texture;
+        set_defaultSpritePath("body/male/light.png");
     }
 
     protected void loadDefaultSprite()
@@ -58,7 +27,7 @@ public class Player extends Character {
     }
 
     protected void loadAllAnimations(){
-        Pixmap player=new Pixmap(Gdx.files.internal("images/light.png"));
+        Pixmap player=new Pixmap(Gdx.files.internal(ROOTPATH+"body/male/light.png"));
         // pour l'ordre utiliser linkedHashMap
         player.drawPixmap(new Pixmap(Gdx.files.internal("images/mail_male.png")), 0, 0);
         player.drawPixmap(new Pixmap(Gdx.files.internal("images/jacket_male.png")), 0, 0);

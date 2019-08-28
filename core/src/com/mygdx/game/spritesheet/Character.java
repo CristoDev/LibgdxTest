@@ -14,7 +14,8 @@ public abstract class Character {
     protected Animation walk;
     protected static final AssetManager _assetManager = new AssetManager();
     protected static InternalFileHandleResolver _filePathResolver =  new InternalFileHandleResolver();
-    protected static String _defaultSpritePath = "images/light.png";
+    protected String _defaultSpritePath = "body/male/red_orc.png";
+    protected static final String ROOTPATH="Universal-LPC-spritesheet/";
     protected int left=9, up=8, down=10, right=11;
     protected static String TAG="Character";
 
@@ -39,32 +40,39 @@ public abstract class Character {
     }
 
     public static void loadTextureAsset(String textureFilenamePath){
+
         if( textureFilenamePath == null || textureFilenamePath.isEmpty() ){
             return;
         }
 
-        if( _assetManager.isLoaded(textureFilenamePath) ){
+        String textureFilenameRootPath=ROOTPATH+textureFilenamePath;
+
+        if( _assetManager.isLoaded(textureFilenameRootPath) ){
             return;
         }
 
-        if( _filePathResolver.resolve(textureFilenamePath).exists() ){
+
+
+
+        if( _filePathResolver.resolve(textureFilenameRootPath).exists() ){
             _assetManager.setLoader(Texture.class, new TextureLoader(_filePathResolver));
-            _assetManager.load(textureFilenamePath, Texture.class);
-            _assetManager.finishLoadingAsset(textureFilenamePath);
+            _assetManager.load(textureFilenameRootPath, Texture.class);
+            _assetManager.finishLoadingAsset(textureFilenameRootPath);
         }
         else{
-            Gdx.app.debug(TAG, "loadTextureAsset::Texture doesn't exist!: " + textureFilenamePath );
+            Gdx.app.debug(TAG, "loadTextureAsset::Texture doesn't exist!: " + textureFilenameRootPath );
         }
     }
 
     public static Texture getTextureAsset(String textureFilenamePath) {
         Texture texture=null;
+        String textureFilenameRootPath=ROOTPATH+textureFilenamePath;
 
-        if (_assetManager.isLoaded(textureFilenamePath)) {
-            texture= _assetManager.get(textureFilenamePath, Texture.class);
+        if (_assetManager.isLoaded(textureFilenameRootPath)) {
+            texture= _assetManager.get(textureFilenameRootPath, Texture.class);
         }
         else {
-            Gdx.app.debug(TAG, "getTextureAsset::Texture is not loaded "+ textureFilenamePath);
+            Gdx.app.debug(TAG, "getTextureAsset::Texture is not loaded "+ textureFilenameRootPath);
         }
 
         return texture;
@@ -96,12 +104,12 @@ public abstract class Character {
         Character._filePathResolver = _filePathResolver;
     }
 
-    public static String get_defaultSpritePath() {
+    public String get_defaultSpritePath() {
         return _defaultSpritePath;
     }
 
-    public static void set_defaultSpritePath(String _defaultSpritePath) {
-        Character._defaultSpritePath = _defaultSpritePath;
+    public void set_defaultSpritePath(String _defaultSpritePath) {
+        this._defaultSpritePath = _defaultSpritePath;
     }
 
     public int getLeft() {

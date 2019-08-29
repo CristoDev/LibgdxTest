@@ -10,21 +10,21 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.game.spritesheet.Orc;
-import com.mygdx.game.spritesheet.Player;
+import com.mygdx.game.spritesheet.Character;
 import com.mygdx.game.spritesheet.SpriteSheet;
 
 public class Image extends ApplicationAdapter {
     SpriteBatch batch;
     Texture img, img2, img3;
     int x=0, y=0, dx=1, dy=2, nb=30;
-    private static final String TAG = Player.class.getSimpleName();
+    private static final String TAG = Image.class.getSimpleName();
 
     Array<Vector2> positions=new Array<Vector2>();
     Array<Vector2> deltas=new Array<Vector2>();
 
-    Player p=new Player();
-    Orc o=new Orc();
+    Character p=null;
+    Character o=null;
+
     CompositeSprite sprite=null;
 
     @Override
@@ -32,11 +32,29 @@ public class Image extends ApplicationAdapter {
         batch = new SpriteBatch();
         createTexture();
 
-        p.init();
-        o.init();
+        p=new Character();
+        o=new Character();
+
+        if (p != null) {
+            p.createHuman();
+            p.init();
+            p.setPosition(200, 50);
+            p.addEquipment("torso/chain/mail_male.png");
+            p.addEquipment("hands/gloves/male/metal_gloves_male.png");
+            p.addEquipment("weapons/right hand/male/dagger_male.png");
+            p.loadAllAnimations();
+        }
+
+        if (o != null) {
+            o.createOrc();
+            o.init();
+            o.setPosition(50, 50);
+            o.addEquipment("weapons/right hand/male/spear_male.png");
+            o.loadAllAnimations();
+        }
 
         createSprite();
-        SpriteSheet spriteSheet=new SpriteSheet();
+        //SpriteSheet spriteSheet=new SpriteSheet();
     }
 
     private void createTexture() {
@@ -93,8 +111,11 @@ public class Image extends ApplicationAdapter {
     }
 
     public void update(float delta){
-        p.update(delta);
-        o.update(delta);
+        if (p != null)
+            p.update(delta);
+
+        if (o != null)
+            o.update(delta);
     }
 
     @Override
@@ -108,8 +129,11 @@ public class Image extends ApplicationAdapter {
         //batch.draw(img, x, y);
         //batch.draw(img2, x, y);
         //batch.draw(img3, y+50, x*2);
-        p.render(batch);
-        o.render(batch);
+        if (p != null)
+            p.render(batch);
+
+        if (o != null)
+            o.render(batch);
         //sprite.draw(batch);
 
         batch.end();

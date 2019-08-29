@@ -31,7 +31,7 @@ public class AnimationManager {
     protected int FRAME_HEIGHT_SCALE = 2;
 
     protected Hashtable<AnimationState, Animation<TextureRegion>> _animations;
-    protected HashMap<AnimationState, HashMap<AnimationDirection, Animation<TextureRegion>>> _animationsFull;
+    protected HashMap<AnimationState, HashMap<String, Animation<TextureRegion>>> _animationsFull;
 
     protected Animation _currentAnimation;
     protected AnimationState _currentAnimationState;
@@ -70,33 +70,27 @@ public class AnimationManager {
     }
 
     public static enum AnimationDirection {
-        UP(0, "UP"),
-        LEFT(1, "LEFT"),
-        DOWN(2, "DOWN"),
-        RIGHT(3, "RIGHT");
+        UP(0),
+        LEFT(1),
+        DOWN(2),
+        RIGHT(3);
 
         private int index;
-        private String direction;
 
-        AnimationDirection(int i, String d) {
+        AnimationDirection(int i) {
             index=i;
-            direction=d;
         }
 
         public int getIndex() {
             return index;
         }
-
-        public String getDirection() {
-            return direction;
-        }
-
     }
 
     public AnimationManager() {
         _animations= new Hashtable<>();
-        _currentAnimationState=AnimationState.SPELLCAST;
-        _currentAnimationDirection=AnimationDirection.RIGHT;
+        _animationsFull=new HashMap<>();
+        _currentAnimationState=AnimationState.WALK;
+        _currentAnimationDirection=AnimationDirection.LEFT;
     }
 
     private Texture buildTexture() {
@@ -120,24 +114,26 @@ public class AnimationManager {
 
     protected void loadAnimation(Texture texture, AnimationState animationState) {
         TextureRegion[][] textureFrames = TextureRegion.split(texture, FRAME_WIDTH, FRAME_HEIGHT);
+        HashMap<String, Animation<TextureRegion>> animation=new HashMap<>();
 
-        //for (int a=animationState.getRowStart(); a<animationState.getRowEnd(); a++) {
-            Array<TextureRegion> frames = new Array<TextureRegion>(animationState.getFramesCount());
-            HashMap<AnimationDirection, Animation<TextureRegion>> animation=new HashMap<>();
+        for (AnimationDirection direction : AnimationDirection.values()) {
+            Array<TextureRegion> frames = new Array<>(animationState.getFramesCount());
 
             for (int i = 0; i < animationState.getFramesCount(); i++) {
-                TextureRegion region = textureFrames[animationState.getRowStart()][i];
+                TextureRegion region = textureFrames[animationState.getRowStart()+direction.getIndex()][i];
                 if (region == null) {
-                    Gdx.app.debug(TAG, "loadAllAnimations::Got null animation frame " + i);
+                    Gdx.app.debug(TAG,"loadAnimation::Got null animation frame " + i);
                 }
                 frames.insert(i, region);
             }
-            //animation.put(_currentAnimationDirection, new Animation(frameDuration, frames, Animation.PlayMode.LOOP));
 
-            //_animationsFull.put(animationState, animation);
-        //}
+            animation.put(direction.name(), new Animation(frameDuration, frames, Animation.PlayMode.LOOP));
+            _animationsFull.put(animationState, animation);
 
-        _animations.put(animationState, new Animation(frameDuration, frames, Animation.PlayMode.LOOP));
+            if (animationState.getRowStart() == animationState.getRowEnd()) {
+                break ;
+            }
+        }
     }
 
     protected void loadAllAnimations(){
@@ -146,9 +142,16 @@ public class AnimationManager {
             loadAnimation(texture, state);
         }
 
-        _currentAnimation=_animations.get(_currentAnimationState);
+        HashMap<String, Animation<TextureRegion>> animation=_animationsFull.get(_currentAnimationState);
+        _currentAnimation=animation.get(_currentAnimationDirection.name());
         _currentFrame = (TextureRegion)_currentAnimation.getKeyFrame(_frameTime);
     }
+
+
+    /////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+
 
     public void loadTextureAsset(String textureFilenamePath){
         if( textureFilenamePath == null || textureFilenamePath.isEmpty() ){

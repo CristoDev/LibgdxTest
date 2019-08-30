@@ -5,8 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mygdx.game.ScreenManager;
-import com.mygdx.game.images.Image;
-import com.mygdx.game.window.MyGdxGame;
+import com.mygdx.game.images.ImageApplication;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -14,11 +13,10 @@ public class DesktopLauncher {
 
 		config.title="images";
 		config.useGL30=false;
-		config.width=400;
-		config.height=400;
+		config.width=800;
+		config.height=600;
 
-		//Application app=new LwjglApplication(new Image(), config);
-		//Application app=new LwjglApplication(new MyGdxGame(), config);
+		//Application app=new LwjglApplication(new ImageApplication(), config);
 		Application app=new LwjglApplication(new ScreenManager(), config);
 
 		Gdx.app=app;

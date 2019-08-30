@@ -5,7 +5,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
@@ -14,8 +13,8 @@ import com.badlogic.gdx.utils.Align;
 
 
 public class MyWindow extends Window {
-    public final AssetManager manager = new AssetManager();
-    private TextureAtlas atlas;
+    //public final AssetManager manager = new AssetManager();
+    //private TextureAtlas atlas;
 
     private int _hpVal = 50;
 

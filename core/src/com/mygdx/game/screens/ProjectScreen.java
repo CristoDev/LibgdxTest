@@ -1,18 +1,23 @@
 package com.mygdx.game.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ScreenManager;
+import com.mygdx.game.Tools;
 
-public class MainScreen implements Screen {
-    private Stage _stage;
-    private ScreenManager _manager;
+public class ProjectScreen implements Screen {
+    //protected Stage _stage=null;
+    protected ScreenManager _manager=null;
+    protected double red=0, green=0, blue=0;
 
+    public ProjectScreen(ScreenManager manager){
+        _manager=manager;
 
-    public MainScreen(ScreenManager manager){
-        _manager = manager;
-        _stage = new Stage();
     }
+
 
     @Override
     public void show() {
@@ -41,7 +46,7 @@ public class MainScreen implements Screen {
 
     @Override
     public void hide() {
-
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override
@@ -49,3 +54,4 @@ public class MainScreen implements Screen {
 
     }
 }
+

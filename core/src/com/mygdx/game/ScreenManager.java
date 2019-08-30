@@ -2,24 +2,29 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
-import com.mygdx.game.screens.MainScreen;
+import com.mygdx.game.screens.ImageScreen;
 import com.mygdx.game.screens.MenuScreen;
+import com.mygdx.game.screens.WindowScreen;
 
 public class ScreenManager extends Game {
-    private static MainScreen _mainScreen;
     private static MenuScreen _menuScreen;
+    private static WindowScreen _windowScreen;
+    private static ImageScreen _imageScreen;
 
     public static enum ScreenType{
-        MainMenu,
-        MainGame,
+        MenuScreen,
+        ImageScreen,
+        WindowScreen;
     }
 
     public Screen getScreenType(ScreenType screenType){
         switch(screenType){
-            case MainMenu:
+            case MenuScreen:
                 return _menuScreen;
-            case MainGame:
-                return _mainScreen;
+            case WindowScreen:
+                return _windowScreen;
+            case ImageScreen:
+                return _imageScreen;
             default:
                 return _menuScreen;
         }
@@ -29,14 +34,16 @@ public class ScreenManager extends Game {
     @Override
     public void create(){
         _menuScreen = new MenuScreen(this);
-        _mainScreen=new MainScreen(this);
+        _windowScreen=new WindowScreen(this);
+        _imageScreen=new ImageScreen(this);
         setScreen(_menuScreen);
     }
 
     @Override
     public void dispose(){
-        _mainScreen.dispose();
         _menuScreen.dispose();
+        _windowScreen.dispose();
+        _imageScreen.dispose();
     }
 
 }

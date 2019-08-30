@@ -15,11 +15,11 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ScreenManager;
 import com.mygdx.game.Tools;
 
-public class MenuUI extends ProjectScreen {
+public class MenuUI  {
     private Stage _stage;
+    ScreenManager _manager;
 
     public MenuUI(ScreenManager manager) {
-        super(manager);
         _stage=new Stage();
         addMenuButton();
     }
@@ -48,23 +48,19 @@ public class MenuUI extends ProjectScreen {
     public void update(float delta){
     }
 
-    @Override
     public void render(float delta) {
         _stage.act(delta);
         _stage.draw();
     }
 
-    @Override
     public void show() {
         Gdx.input.setInputProcessor(_stage);
     }
 
-    @Override
     public void resize(int width, int height) {
         _stage.getViewport().setScreenSize(width, height);
     }
 
-    @Override
     public void dispose() {
         _stage.clear();
         _stage.dispose();

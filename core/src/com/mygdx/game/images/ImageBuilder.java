@@ -1,8 +1,6 @@
 package com.mygdx.game.images;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -13,11 +11,10 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.spritesheet.AnimationManager;
 import com.mygdx.game.spritesheet.Character;
 
-public class ImageApplication extends ApplicationAdapter {
-    SpriteBatch batch;
+public class ImageBuilder {
     Texture img, img2, img3;
     int x=0, y=0, dx=1, dy=2, nb=30;
-    private static final String TAG = ImageApplication.class.getSimpleName();
+    private static final String TAG = ImageBuilder.class.getSimpleName();
 
     Array<Vector2> positions=new Array<Vector2>();
     Array<Vector2> deltas=new Array<Vector2>();
@@ -27,9 +24,12 @@ public class ImageApplication extends ApplicationAdapter {
 
     CompositeSprite sprite=null;
 
-    @Override
+    public ImageBuilder() {
+        create();
+    }
+
+
     public void create () {
-        batch = new SpriteBatch();
         createTexture();
 
         p=new Character();
@@ -115,37 +115,33 @@ public class ImageApplication extends ApplicationAdapter {
     }
 
     public void update(float delta){
-        if (p != null)
-            p.update(delta);
-
-        if (o != null)
-            o.update(delta);
-    }
-
-    @Override
-    public void render () {
         updatePosition();
-        update(Gdx.graphics.getDeltaTime());
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
 
-        batch.draw(img, x, y);
-        batch.draw(img2, x, y);
-        batch.draw(img3, y+50, x*2);
-        if (p != null)
-            p.render(batch);
+        if (p != null) {
+            p.update(delta);
+        }
 
-        if (o != null)
-            o.render(batch);
-        sprite.draw(batch);
-
-        batch.end();
+        if (o != null) {
+            o.update(delta);
+        }
     }
 
-    @Override
+    public void render (SpriteBatch batch) {
+        //batch.draw(img, x, y);
+        //batch.draw(img2, x, y);
+        //batch.draw(img3, y+50, x*2);
+        if (p != null) {
+            p.render(batch);
+        }
+
+        if (o != null) {
+            o.render(batch);
+        }
+
+        //sprite.draw(batch);
+    }
+
     public void dispose () {
-        batch.dispose();
         img.dispose();
         img2.dispose();
         img3.dispose();

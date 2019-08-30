@@ -147,6 +147,21 @@ public class AnimationManager {
         _currentFrame = (TextureRegion)_currentAnimation.getKeyFrame(_frameTime);
     }
 
+    public AnimationState getCurrentAnimationState() {
+        return _currentAnimationState;
+    }
+
+    public void setAnimationState(AnimationState _currentAnimationState) {
+        this._currentAnimationState = _currentAnimationState;
+    }
+
+    public AnimationDirection getCurrentAnimationDirection() {
+        return _currentAnimationDirection;
+    }
+
+    public void setAnimationDirection(AnimationDirection _currentAnimationDirection) {
+        this._currentAnimationDirection = _currentAnimationDirection;
+    }
 
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
@@ -204,5 +219,7 @@ public class AnimationManager {
     public void render (SpriteBatch batch, Vector2 position) {
         batch.draw(_currentFrame, position.x, position.y, FRAME_WIDTH*FRAME_WIDTH_SCALE, FRAME_HEIGHT*FRAME_HEIGHT_SCALE);
     }
+
+
 
 }

@@ -10,8 +10,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.spritesheet.AnimationManager;
 import com.mygdx.game.spritesheet.Character;
-import com.mygdx.game.spritesheet.SpriteSheet;
 
 public class Image extends ApplicationAdapter {
     SpriteBatch batch;
@@ -42,6 +42,7 @@ public class Image extends ApplicationAdapter {
             p.addEquipment("torso/chain/mail_male.png");
             p.addEquipment("hands/gloves/male/metal_gloves_male.png");
             p.addEquipment("weapons/right hand/male/dagger_male.png");
+            p.setAnimationDirection(AnimationManager.AnimationDirection.RIGHT);
             p.loadAllAnimations();
         }
 
@@ -50,6 +51,8 @@ public class Image extends ApplicationAdapter {
             o.init();
             o.setPosition(50, 50);
             o.addEquipment("weapons/right hand/male/spear_male.png");
+            o.setAnimationDirection(AnimationManager.AnimationDirection.UP);
+            o.setAnimationState(AnimationManager.AnimationState.HURT);
             o.loadAllAnimations();
         }
 
@@ -71,6 +74,7 @@ public class Image extends ApplicationAdapter {
             positions.add(new Vector2(MathUtils.random(0, 200), MathUtils.random(0, 300)));
             deltas.add(new Vector2(1, 1));
         }
+
 
     }
 
@@ -126,7 +130,7 @@ public class Image extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
 
-        //batch.draw(img, x, y);
+        batch.draw(img, x, y);
         //batch.draw(img2, x, y);
         //batch.draw(img3, y+50, x*2);
         if (p != null)

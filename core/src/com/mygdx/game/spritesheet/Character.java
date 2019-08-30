@@ -56,6 +56,14 @@ public class Character {
 
     public void addEquipment(String filename) {
         animationManager.addElement(filename);
+    }
+
+    public void setAnimationState(AnimationManager.AnimationState state) {
+        animationManager.setAnimationState(state);
+    }
+
+    public void setAnimationDirection(AnimationManager.AnimationDirection direction) {
+        animationManager.setAnimationDirection(direction);
 
     }
 }

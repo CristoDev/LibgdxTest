@@ -70,15 +70,30 @@ public class MenuScreen implements Screen {
                                     }
                                 }
         );
+
+        TextButton imageMenuScreen = new TextButton("Image + menu", style);
+        imageMenuScreen.setPosition(400, 0);
+        _stage.addActor(imageMenuScreen);
+
+        imageMenuScreen.addListener(new ClickListener() {
+                                    @Override
+                                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                        return true;
+                                    }
+
+                                    @Override
+                                    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                        //_manager.setScreen(_manager.getScreenType(ScreenManager.ScreenType.MainGame));
+                                        Tools.debug("TAG", "clic imageMenuScreen");
+                                        _manager.setScreen(_manager.getScreenType(ScreenManager.ScreenType.ImageMenuScreen));
+                                    }
+                                }
+        );
+
     }
 
     @Override
     public void show() {
-        if (_stage == null) {
-            _stage = new Stage(new ScreenViewport());
-            Tools.debug("ProjectScreen", "WARNING: _stage is null");
-        }
-
         Gdx.input.setInputProcessor(_stage);
     }
 

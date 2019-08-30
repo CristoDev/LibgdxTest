@@ -5,13 +5,16 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.ScreenManager;
+import com.mygdx.game.images.ImageBuilder;
 
 public class ImageMenuScreen implements Screen {
     private ScreenManager _manager;
     private OrthographicCamera _camera;
     private InputMultiplexer _multiplexer;
-
+    private ImageBuilder _imageBuilder;
+    private SpriteBatch batch;
     private MenuUI _menuUI;
 
     private static final String TAG = ImageMenuScreen.class.getSimpleName();
@@ -28,12 +31,14 @@ public class ImageMenuScreen implements Screen {
 
     public ImageMenuScreen(ScreenManager manager) {
         _manager=manager;
+        batch=new SpriteBatch();
+        _imageBuilder=new ImageBuilder();
         //_camera setup
-        setupViewport(10, 10);
+        setupViewport(400, 300);
 
         //get the current size
         _camera = new OrthographicCamera();
-        //_camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
+        _camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
 
         _menuUI=new MenuUI(_manager);
 
@@ -83,9 +88,15 @@ public class ImageMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        _imageBuilder.update(delta);
+        batch.setProjectionMatrix(_camera.combined);
+        batch.begin();
+
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        _imageBuilder.render(batch);
 
+        batch.end();
         _menuUI.render(delta);
     }
 
@@ -111,6 +122,7 @@ public class ImageMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        _imageBuilder.dispose();
+        _menuUI.dispose();
     }
 }

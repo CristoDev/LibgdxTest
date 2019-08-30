@@ -36,13 +36,11 @@ public class MenuUI  implements Screen {
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                Tools.debug("000", "clic retour");
                 _manager.setScreen(_manager.getScreenType(ScreenManager.ScreenType.MenuScreen));
 
             }
         });
 
-        Tools.debug("000", "creation du bouton");
         _stage.addActor(button);
     }
 

@@ -33,16 +33,17 @@ public class ImageScreen implements Screen {
     Character o=null;
 
     CompositeSprite sprite=null;
-
+    private MenuUI _menuUI;
 
     public ImageScreen(ScreenManager manager) {
         _manager=manager;
+        _menuUI=new MenuUI(_manager);
         create();
     }
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(_menuUI.getStage());
     }
 
     private void updatePosition() {
@@ -98,6 +99,8 @@ public class ImageScreen implements Screen {
 
         sprite.draw(batch);
         batch.end();
+
+        _menuUI.render(delta);
     }
 
     @Override
@@ -117,7 +120,7 @@ public class ImageScreen implements Screen {
 
     @Override
     public void hide() {
-
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override

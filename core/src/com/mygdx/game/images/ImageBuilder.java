@@ -127,9 +127,9 @@ public class ImageBuilder {
     }
 
     public void render (SpriteBatch batch) {
-        //batch.draw(img, x, y);
-        //batch.draw(img2, x, y);
-        //batch.draw(img3, y+50, x*2);
+        batch.draw(img, x, y);
+        batch.draw(img2, x, y);
+        batch.draw(img3, y+50, x*2);
         if (p != null) {
             p.render(batch);
         }
@@ -138,7 +138,7 @@ public class ImageBuilder {
             o.render(batch);
         }
 
-        //sprite.draw(batch);
+        sprite.draw(batch);
     }
 
     public void dispose () {

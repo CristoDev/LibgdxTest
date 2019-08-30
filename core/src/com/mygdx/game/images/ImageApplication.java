@@ -13,11 +13,11 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.spritesheet.AnimationManager;
 import com.mygdx.game.spritesheet.Character;
 
-public class Image extends ApplicationAdapter {
+public class ImageApplication extends ApplicationAdapter {
     SpriteBatch batch;
     Texture img, img2, img3;
     int x=0, y=0, dx=1, dy=2, nb=30;
-    private static final String TAG = Image.class.getSimpleName();
+    private static final String TAG = ImageApplication.class.getSimpleName();
 
     Array<Vector2> positions=new Array<Vector2>();
     Array<Vector2> deltas=new Array<Vector2>();

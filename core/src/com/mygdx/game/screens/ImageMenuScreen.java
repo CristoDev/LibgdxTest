@@ -34,7 +34,7 @@ public class ImageMenuScreen implements Screen {
         batch=new SpriteBatch();
         _imageBuilder=new ImageBuilder();
         //_camera setup
-        setupViewport(400, 300);
+        setupViewport(800, 600);
 
         //get the current size
         _camera = new OrthographicCamera();

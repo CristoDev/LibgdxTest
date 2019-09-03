@@ -3,18 +3,16 @@ package com.mygdx.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mygdx.game.ScreenManager;
 
 public class ScrollingScreen implements Screen {
@@ -66,6 +64,7 @@ public class ScrollingScreen implements Screen {
         Table table=new Table();
 
         ScrollPane scrollPane = new ScrollPane(table, STATUSUI_SKIN);
+        table.setBackground(new TextureRegionDrawable(new Texture("gui/paper_background.png")));
         Texture texture = new Texture("badlogic.jpg");
 
         for (int y=0; y<5; y++) {
@@ -73,7 +72,7 @@ public class ScrollingScreen implements Screen {
             for (int i = 0; i < 10; i++) {
                 Image img = new Image(texture);
                 //img.setRotation((90*i)%360);
-                table.add(img);
+                //table.add(img);
             }
         }
 

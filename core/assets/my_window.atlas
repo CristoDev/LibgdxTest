@@ -27,3 +27,10 @@ default-round
   orig: 87, 87
   offset: 0, 0
   index: -1
+default-background
+  rotate: false
+  xy: 128, 128
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1

@@ -14,11 +14,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ScreenManager;
 import com.mygdx.game.Tools;
+import com.mygdx.game.test.I18nTest;
 
 public class MenuScreen implements Screen {
     private Stage _stage;
     private ScreenManager _manager;
-
 
     public MenuScreen(ScreenManager manager){
         _manager=manager;
@@ -108,6 +108,9 @@ public class MenuScreen implements Screen {
                                     }
         );
 
+
+        I18nTest test=new I18nTest();
+        test.run();
     }
 
     @Override

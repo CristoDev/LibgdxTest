@@ -90,6 +90,24 @@ public class MenuScreen implements Screen {
                                 }
         );
 
+        TextButton scrollingScreen = new TextButton("Scrolling", style);
+        scrollingScreen.setPosition(600, 0);
+        _stage.addActor(scrollingScreen);
+
+        scrollingScreen.addListener(new ClickListener() {
+                                        @Override
+                                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                            return true;
+                                        }
+
+                                        @Override
+                                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                            Tools.debug("TAG", "clic scrollingScreen");
+                                            _manager.setScreen(_manager.getScreenType(ScreenManager.ScreenType.ScrollingScreen));
+                                        }
+                                    }
+        );
+
     }
 
     @Override

@@ -2,21 +2,20 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
-import com.mygdx.game.screens.ImageMenuScreen;
-import com.mygdx.game.screens.ImageScreen;
-import com.mygdx.game.screens.MenuScreen;
-import com.mygdx.game.screens.WindowScreen;
+import com.mygdx.game.screens.*;
 
 public class ScreenManager extends Game {
     private static MenuScreen _menuScreen;
     private static WindowScreen _windowScreen;
     private static ImageScreen _imageScreen;
     private static ImageMenuScreen _imageMenuScreen;
+    private static ScrollingScreen _scrollingScreen;
 
     public static enum ScreenType{
         MenuScreen,
         ImageScreen,
         ImageMenuScreen,
+        ScrollingScreen,
         WindowScreen;
     }
 
@@ -30,6 +29,8 @@ public class ScreenManager extends Game {
                 return _imageScreen;
             case ImageMenuScreen:
                 return _imageMenuScreen;
+            case ScrollingScreen:
+                return _scrollingScreen;
             default:
                 return _menuScreen;
         }
@@ -42,6 +43,7 @@ public class ScreenManager extends Game {
         _windowScreen=new WindowScreen(this);
         _imageScreen=new ImageScreen(this);
         _imageMenuScreen=new ImageMenuScreen(this);
+        _scrollingScreen=new ScrollingScreen(this);
         setScreen(_menuScreen);
     }
 
@@ -51,6 +53,7 @@ public class ScreenManager extends Game {
         _windowScreen.dispose();
         _imageScreen.dispose();
         _imageMenuScreen.dispose();
+        _scrollingScreen.dispose();
     }
 
 }

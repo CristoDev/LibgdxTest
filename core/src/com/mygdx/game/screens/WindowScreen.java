@@ -26,8 +26,8 @@ public class WindowScreen implements Screen {
     private Stage _stage;
     private ScreenManager _manager;
 
-    private final static String STATUSUI_TEXTURE_ATLAS_PATH = "my_window.atlas";
-    private final static String STATUSUI_SKIN_PATH = "my_window.json";
+    private final static String STATUSUI_TEXTURE_ATLAS_PATH = "gui/my_window.atlas";
+    private final static String STATUSUI_SKIN_PATH = "gui/my_window.json";
 
     private static TextureAtlas STATUSUI_TEXTUREATLAS = new TextureAtlas(STATUSUI_TEXTURE_ATLAS_PATH);
     private static Skin STATUSUI_SKIN = new Skin(Gdx.files.internal(STATUSUI_SKIN_PATH), STATUSUI_TEXTUREATLAS);
@@ -88,7 +88,7 @@ public class WindowScreen implements Screen {
 
 
     private void createButton() {
-        NinePatch patch = new NinePatch(new Texture(Gdx.files.internal("my_window.9.png")), 16, 16, 16, 16);
+        NinePatch patch = new NinePatch(new Texture(Gdx.files.internal("gui/my_window_alt.9.png")), 14, 14, 14, 14);
         NinePatchDrawable patchDrawable=new NinePatchDrawable(patch);
         // Create a new TextButtonStyle
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(patchDrawable, patchDrawable, patchDrawable, new BitmapFont());
@@ -113,7 +113,7 @@ public class WindowScreen implements Screen {
     }
 
     private void createImage() {
-        Texture img = new Texture("badlogic.jpg");
+        Texture img = new Texture("images/badlogic.jpg");
         image1 = new Image(img);
         posX=(int)(Gdx.graphics.getWidth()/3-image1.getWidth()/2);
         posY=(int)(Gdx.graphics.getHeight()*2/3-image1.getHeight()/2);

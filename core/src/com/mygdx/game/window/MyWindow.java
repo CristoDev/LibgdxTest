@@ -23,8 +23,8 @@ public class MyWindow extends Window {
     //private final static String STATUSUI_SKIN_PATH = "statusui.json";
 
 
-    private final static String STATUSUI_TEXTURE_ATLAS_PATH = "my_window.atlas";
-    private final static String STATUSUI_SKIN_PATH = "my_window.json";
+    private final static String STATUSUI_TEXTURE_ATLAS_PATH = "gui/my_window.atlas";
+    private final static String STATUSUI_SKIN_PATH = "gui/my_window.json";
 
     private static TextureAtlas STATUSUI_TEXTUREATLAS = new TextureAtlas(STATUSUI_TEXTURE_ATLAS_PATH);
     private static Skin STATUSUI_SKIN = new Skin(Gdx.files.internal(STATUSUI_SKIN_PATH), STATUSUI_TEXTUREATLAS);

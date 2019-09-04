@@ -24,7 +24,7 @@ public class MenuUI  implements Screen {
     }
 
     private void addMenuButton() {
-        NinePatch patch = new NinePatch(new Texture(Gdx.files.internal("my_window.9.png")), 16, 16, 16, 16);
+        NinePatch patch = new NinePatch(new Texture(Gdx.files.internal("gui/my_window_alt.9.png")), 14, 14, 14, 14);
         NinePatchDrawable patchDrawable=new NinePatchDrawable(patch);
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(patchDrawable, patchDrawable, patchDrawable, new BitmapFont());
         TextButton button = new TextButton("Menu", style);

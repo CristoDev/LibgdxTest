@@ -23,17 +23,13 @@ public class MenuScreen implements Screen {
     public MenuScreen(ScreenManager manager){
         _manager=manager;
         _stage = new Stage();
-        //Table table = new Table();
-        //table.setFillParent(true);
 
-        NinePatch patch = new NinePatch(new Texture(Gdx.files.internal("my_window.9.png")), 16, 16, 16, 16);
+        NinePatch patch = new NinePatch(new Texture(Gdx.files.internal("gui/my_window_alt.9.png")), 14, 14, 14, 14);
         NinePatchDrawable patchDrawable=new NinePatchDrawable(patch);
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(patchDrawable, patchDrawable, patchDrawable, new BitmapFont());
 
         TextButton windowScreen = new TextButton("Window screen", style);
         _stage.addActor(windowScreen);
-        //table.add(windowScreen).spaceBottom(10).row();
-        //_stage.addActor(table);
 
         //Listeners
         windowScreen.addListener(new ClickListener() {
@@ -44,8 +40,6 @@ public class MenuScreen implements Screen {
 
                                      @Override
                                      public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                         //_manager.setScreen(_manager.getScreenType(ScreenManager.ScreenType.MainGame));
-                                         Tools.debug("TAG", "clic sur le bouton lancement de window screen");
                                          _manager.setScreen(_manager.getScreenType(ScreenManager.ScreenType.WindowScreen));
                                      }
                                  }
@@ -64,8 +58,6 @@ public class MenuScreen implements Screen {
 
                                     @Override
                                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                        //_manager.setScreen(_manager.getScreenType(ScreenManager.ScreenType.MainGame));
-                                        Tools.debug("TAG", "clic sur le bouton lancement de image screen");
                                         _manager.setScreen(_manager.getScreenType(ScreenManager.ScreenType.ImageScreen));
                                     }
                                 }
@@ -83,8 +75,6 @@ public class MenuScreen implements Screen {
 
                                     @Override
                                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                        //_manager.setScreen(_manager.getScreenType(ScreenManager.ScreenType.MainGame));
-                                        Tools.debug("TAG", "clic imageMenuScreen");
                                         _manager.setScreen(_manager.getScreenType(ScreenManager.ScreenType.ImageMenuScreen));
                                     }
                                 }
@@ -102,7 +92,6 @@ public class MenuScreen implements Screen {
 
                                         @Override
                                         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                            Tools.debug("TAG", "clic scrollingScreen");
                                             _manager.setScreen(_manager.getScreenType(ScreenManager.ScreenType.ScrollingScreen));
                                         }
                                     }

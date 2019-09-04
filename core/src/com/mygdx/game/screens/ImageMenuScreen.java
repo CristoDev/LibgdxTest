@@ -44,6 +44,7 @@ public class ImageMenuScreen implements Screen {
 
         _multiplexer = new InputMultiplexer();
         _multiplexer.addProcessor(_menuUI.getStage());
+        //batch=(SpriteBatch)_menuUI.getStage().getBatch();
 
         Gdx.input.setInputProcessor(_multiplexer);
     }
@@ -96,8 +97,10 @@ public class ImageMenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         _imageBuilder.render(batch);
 
-        batch.end();
         _menuUI.render(delta);
+        batch.end();
+
+
     }
 
     @Override

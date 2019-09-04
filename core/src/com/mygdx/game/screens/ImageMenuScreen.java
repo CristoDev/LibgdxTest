@@ -96,11 +96,9 @@ public class ImageMenuScreen implements Screen {
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         _imageBuilder.render(batch);
-
-        _menuUI.render(delta);
         batch.end();
 
-
+        _menuUI.render(delta);
     }
 
     @Override

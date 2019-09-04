@@ -10,12 +10,14 @@ public class ScreenManager extends Game {
     private static ImageScreen _imageScreen;
     private static ImageMenuScreen _imageMenuScreen;
     private static ScrollingScreen _scrollingScreen;
+    private static BarScreen _barScreen;
 
     public static enum ScreenType{
         MenuScreen,
         ImageScreen,
         ImageMenuScreen,
         ScrollingScreen,
+        BarScreen,
         WindowScreen;
     }
 
@@ -31,6 +33,8 @@ public class ScreenManager extends Game {
                 return _imageMenuScreen;
             case ScrollingScreen:
                 return _scrollingScreen;
+            case BarScreen:
+                return _barScreen;
             default:
                 return _menuScreen;
         }
@@ -44,6 +48,7 @@ public class ScreenManager extends Game {
         _imageScreen=new ImageScreen(this);
         _imageMenuScreen=new ImageMenuScreen(this);
         _scrollingScreen=new ScrollingScreen(this);
+        _barScreen=new BarScreen(this);
         setScreen(_menuScreen);
     }
 
@@ -54,6 +59,7 @@ public class ScreenManager extends Game {
         _imageScreen.dispose();
         _imageMenuScreen.dispose();
         _scrollingScreen.dispose();
+        _barScreen.dispose();
     }
 
 }

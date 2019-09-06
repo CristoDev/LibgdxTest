@@ -1,7 +1,6 @@
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,8 +10,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.ScreenManager;
+import com.mygdx.game.images.CharacterAtlasBuilder;
 import com.mygdx.game.images.CompositeSprite;
-import com.mygdx.game.images.ImageApplication;
 import com.mygdx.game.spritesheet.AnimationManager;
 import com.mygdx.game.spritesheet.Character;
 
@@ -26,6 +25,7 @@ public class ImageScreen extends GlobalScreen {
 
     Character p=null;
     Character o=null;
+    CharacterAtlasBuilder orc=null, tanned=null;
 
     CompositeSprite sprite=null;
     private MenuUI _menuUI;
@@ -73,6 +73,9 @@ public class ImageScreen extends GlobalScreen {
 
         if (o != null)
             o.update(delta);
+
+        orc.update(delta);
+        tanned.update(delta);
     }
 
     @Override
@@ -91,6 +94,9 @@ public class ImageScreen extends GlobalScreen {
 
         if (o != null)
             o.render(batch);
+
+        orc.render(batch);
+        tanned.render(batch);
 
         sprite.draw(batch);
         batch.end();
@@ -133,6 +139,10 @@ public class ImageScreen extends GlobalScreen {
             o.setAnimationState(AnimationManager.AnimationState.HURT);
             o.loadAllAnimations();
         }
+
+        orc=new CharacterAtlasBuilder();
+        tanned=new CharacterAtlasBuilder("TANNED_SPELLCAST_RIGHT", 500, 200);
+
 
         createSprite();
         //SpriteSheet spriteSheet=new SpriteSheet();

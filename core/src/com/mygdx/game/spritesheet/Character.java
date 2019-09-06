@@ -22,6 +22,10 @@ public class Character {
         animationManager.loadAllAnimations();
     }
 
+    public void loadAllAnimationsFromDefaultFile() {
+        animationManager.loadAllAnimationsFromDefaultFile();
+    }
+
     public void update(float delta){
         animationManager.update(delta);
     }
@@ -31,11 +35,11 @@ public class Character {
     }
 
     public void createOrc() {
-        set_defaultSpritePath("body/male/orc.png");
+        set_defaultSpritePath("body/male/red_orc.png");
     }
 
     public void createHuman() {
-        set_defaultSpritePath("body/male/light.png");
+        set_defaultSpritePath("body/male/dark.png");
     }
 
     public void set_defaultSpritePath(String _defaultSpritePath) {

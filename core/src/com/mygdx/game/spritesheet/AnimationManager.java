@@ -4,14 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.TextureLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.Tools;
 
+import java.io.IOException;
 import java.util.*;
 
 public class AnimationManager {
@@ -137,8 +142,9 @@ public class AnimationManager {
     }
 
     protected void loadAllAnimations(){
+        // sortie de la boucle FOR le temps de chargement est largement reduit :)
+        Texture texture = buildTexture();
         for (AnimationState state : AnimationState.values()) {
-            Texture texture = buildTexture();
             loadAnimation(texture, state);
         }
 
@@ -146,6 +152,79 @@ public class AnimationManager {
         _currentAnimation=animation.get(_currentAnimationDirection.name());
         _currentFrame = (TextureRegion)_currentAnimation.getKeyFrame(_frameTime);
     }
+
+
+
+    //////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////
+
+
+
+    protected void loadAnimationFromDefaultFile(AnimationState animationState) {
+        for (AnimationDirection direction : AnimationDirection.values()) {
+            Array<TextureAtlas.AtlasRegion> regions = new TextureAtlas("images/default_character.atlas").findRegions(animationState.name()+"_"+direction.name());
+            HashMap<String, Animation<TextureRegion>> animation=new HashMap<>();
+            animation.put(direction.name(), new Animation(frameDuration, regions, Animation.PlayMode.LOOP));
+            _animationsFull.put(animationState, animation);
+
+            if (animationState.getRowStart() == animationState.getRowEnd()) {
+                break ;
+            }
+        }
+    }
+
+    protected void loadAllAnimationsFromDefaultFile() {
+        buildTexture();
+        FileHandle destFile=new FileHandle("images/default_character.png");
+
+        if (destFile.exists()) {
+            Tools.debug(TAG, "suppression du fichier");
+            destFile.delete();
+        }
+
+        try {
+            PixmapIO.writePNG(destFile, character);
+        }
+        catch (Exception exception) {
+            Tools.debug(TAG, "EXCEPTION!!!!!! "+exception.getMessage());
+        }
+
+         /*
+        PixmapIO.PNG pngFile=new PixmapIO.PNG();
+
+        try{
+            FileHandle fh = new FileHandle("images/default_character_alt.png");
+            if (fh.exists()) {
+                Tools.debug(TAG, "suppression du fichier");
+                fh.delete();
+            }
+
+
+            PixmapIO.writePNG(fh, character);
+            fh.copyTo(destFile);
+
+            //pixmap.dispose();
+        }catch (Exception e){
+            Tools.debug(TAG, "exception "+e.getLocalizedMessage());
+        }
+
+
+          */
+        for (AnimationState state : AnimationState.values()) {
+            loadAnimationFromDefaultFile(state);
+        }
+
+        HashMap<String, Animation<TextureRegion>> animation=_animationsFull.get(_currentAnimationState);
+        _currentAnimation=animation.get(_currentAnimationDirection.name());
+        _currentFrame = (TextureRegion)_currentAnimation.getKeyFrame(_frameTime);
+
+
+    }
+
+    //////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////
 
     public AnimationState getCurrentAnimationState() {
         return _currentAnimationState;

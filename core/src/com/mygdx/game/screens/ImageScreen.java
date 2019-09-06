@@ -141,7 +141,7 @@ public class ImageScreen extends GlobalScreen {
         }
 
         orc=new CharacterAtlasBuilder();
-        tanned=new CharacterAtlasBuilder("TANNED_SPELLCAST_RIGHT", 500, 200);
+        tanned=new CharacterAtlasBuilder("WALK_RIGHT", 500, 200);
 
 
         createSprite();

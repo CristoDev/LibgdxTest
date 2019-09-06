@@ -43,7 +43,8 @@ public class ImageBuilder {
             p.addEquipment("hands/gloves/male/metal_gloves_male.png");
             p.addEquipment("weapons/right hand/male/dagger_male.png");
             p.setAnimationDirection(AnimationManager.AnimationDirection.RIGHT);
-            p.loadAllAnimations();
+            //p.loadAllAnimations();
+            p.loadAllAnimationsFromDefaultFile();
         }
 
         if (o != null) {
@@ -53,7 +54,8 @@ public class ImageBuilder {
             o.addEquipment("weapons/right hand/male/spear_male.png");
             o.setAnimationDirection(AnimationManager.AnimationDirection.UP);
             o.setAnimationState(AnimationManager.AnimationState.HURT);
-            o.loadAllAnimations();
+            //o.loadAllAnimations();
+            o.loadAllAnimationsFromDefaultFile();
         }
 
         createSprite();

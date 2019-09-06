@@ -2,8 +2,10 @@ package com.mygdx.game.images;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -13,13 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
-import com.mygdx.game.ScreenManager;
 import com.mygdx.game.Tools;
-
-import javax.tools.Tool;
-
-import static java.lang.Float.min;
-
 
 public class ImageBarBuilder implements Screen {
     private int x=200, y=100;
@@ -27,7 +23,7 @@ public class ImageBarBuilder implements Screen {
     private Image _imageHP, _imageMP;
     private Stage _stage;
     private float _timeHP=0, _timeMP=0, _durationHP=3, _durationMP=1;
-    private TextButton _buttonMP, _buttonHP;
+    private TextButton _buttonMP, _buttonHP, _buttonSkin;
 
     private final static String STATUSUI_TEXTURE_ATLAS_PATH = "gui/statusui.atlas";
     private final static String STATUSUI_SKIN_PATH = "gui/statusui.json";
@@ -39,6 +35,7 @@ public class ImageBarBuilder implements Screen {
         _stage=new Stage();
         create();
         addMenuButton();
+        addNewButton();
     }
 
 
@@ -54,6 +51,45 @@ public class ImageBarBuilder implements Screen {
         _stage.addActor(_imageHP);
     }
 
+    private void addNewButton() {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/impact.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        BitmapFont fooFont = generator.generateFont(parameter);
+        generator.dispose();
+
+        Skin menuSkin = new Skin();
+        menuSkin.add("myFont", fooFont);
+        menuSkin.load(Gdx.files.internal("gui/statusui_new.json"));
+        _buttonSkin=new TextButton("Essai BLABLA", menuSkin, "inventory");
+        _buttonSkin.setPosition(x, y+200);
+
+        _buttonSkin.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                Tools.debug(TAG, "Clic sur le nouveau bouton");
+            }
+        });
+        _stage.addActor(_buttonSkin);
+
+        /*
+        NinePatch patch = new NinePatch(new Texture(Gdx.files.internal("gui/my_window_alt.9.png")), 14, 14, 14, 14);
+        NinePatchDrawable patchDrawable=new NinePatchDrawable(patch);
+        FreeTypeFontGenerator ftfGen = new FreeTypeFontGenerator(Gdx.files.internal("fonts/impact.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        params.size = 16;
+        BitmapFont font12 = ftfGen.generateFont(params);
+        ftfGen.dispose();
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(patchDrawable, patchDrawable, patchDrawable, font12);
+
+        _buttonMP= new TextButton("Attaque MP", style);
+         */
+    }
+
     private void addMenuButton() {
         NinePatch patch = new NinePatch(new Texture(Gdx.files.internal("gui/my_window_alt.9.png")), 14, 14, 14, 14);
         NinePatchDrawable patchDrawable=new NinePatchDrawable(patch);
@@ -61,7 +97,10 @@ public class ImageBarBuilder implements Screen {
 
         // permet de tester le changement de couleur pour le texte du bouton
         _buttonMP=new TextButton("Attaque MP", STATUSUI_SKIN, "inventory");
-        //_buttonMP= new TextButton("Attaque MP", style);
+
+        /*
+
+*/
 
         _buttonMP.addListener(new ClickListener() {
             @Override

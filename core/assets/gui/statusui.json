@@ -9,8 +9,7 @@
 	},
     "com.badlogic.gdx.graphics.g2d.BitmapFont": {
         "default-font": {
-			"file": "../fonts/harrington.fnt",
-			"scaledSize": 15
+			"file": "../fonts/verdana_12.fnt"
 		}
     },
 	"com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
@@ -23,6 +22,6 @@
 	"com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
 		default: { down: default-round-down, up: default-round, font: default-font, fontColor: white },
 		toggle: { down: default-round-down, up: default-round, checked: default-round-down, font: default-font, fontColor: white, downFontColor: red },
-		inventory: { down: default-round-down, up: default-round, font: default-font, fontColor: red, disabledFontColor: cyan }
+		inventory: { down: default-round-down, up: default-round, font: default-font, fontColor: green, disabledFontColor: red }
 	},
 }

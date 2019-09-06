@@ -67,10 +67,10 @@ public class ScrollingScreen implements Screen {
         Table table=new Table();
 
         ScrollPane scrollPane = new ScrollPane(table, STATUSUI_SKIN);
-        Texture back=new Texture("gui/paper_background.png");
-        back.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        Texture back=new Texture("gui/paper_background_alt.png");
+        //back.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         TextureRegion region=new TextureRegion(back);
-        region.setRegion(0, 0, back.getWidth(), back.getHeight());
+        //region.setRegion(0, 0, back.getWidth(), back.getHeight());
 
         table.setBackground(new TiledDrawable(region));
         Texture texture = new Texture("images/badlogic.png");
@@ -84,8 +84,8 @@ public class ScrollingScreen implements Screen {
             }
         }
 
-        container.add(scrollPane).expand().fill().colspan(4);
-        scrollPane.setFillParent(true);
+        container.add(scrollPane); //.expand();//.fill().colspan(4);
+        //scrollPane.setFillParent(true);
     }
 
     @Override

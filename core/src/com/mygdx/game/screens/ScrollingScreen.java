@@ -1,7 +1,6 @@
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -13,22 +12,16 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 import com.mygdx.game.ScreenManager;
 
-public class ScrollingScreen implements Screen {
-    private ScreenManager _manager;
-    private Stage _stage;
+public class ScrollingScreen extends GlobalScreen {
     private Table container;
 
     private final static String STATUSUI_TEXTURE_ATLAS_PATH = "gui/my_window.atlas";
     private final static String STATUSUI_SKIN_PATH = "gui/my_window.json";
-
     private static TextureAtlas STATUSUI_TEXTUREATLAS = new TextureAtlas(STATUSUI_TEXTURE_ATLAS_PATH);
     private static Skin STATUSUI_SKIN = new Skin(Gdx.files.internal(STATUSUI_SKIN_PATH), STATUSUI_TEXTUREATLAS);
-
-
 
     public ScrollingScreen(ScreenManager manager) {
         _manager=manager;
@@ -65,13 +58,9 @@ public class ScrollingScreen implements Screen {
         container.setFillParent(true);
 
         Table table=new Table();
-
         ScrollPane scrollPane = new ScrollPane(table, STATUSUI_SKIN);
         Texture back=new Texture("gui/paper_background_alt.png");
-        //back.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         TextureRegion region=new TextureRegion(back);
-        //region.setRegion(0, 0, back.getWidth(), back.getHeight());
-
         table.setBackground(new TiledDrawable(region));
         Texture texture = new Texture("images/badlogic.png");
 
@@ -79,13 +68,11 @@ public class ScrollingScreen implements Screen {
             table.row();
             for (int i = 0; i < 10; i++) {
                 Image img = new Image(texture);
-                //img.setRotation((90*i)%360);
                 table.add(img);
             }
         }
 
-        container.add(scrollPane); //.expand();//.fill().colspan(4);
-        //scrollPane.setFillParent(true);
+        container.add(scrollPane);
     }
 
     @Override
@@ -100,26 +87,6 @@ public class ScrollingScreen implements Screen {
         _stage.act();
         _stage.draw();
 
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-        Gdx.input.setInputProcessor(null);
     }
 
     @Override

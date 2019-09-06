@@ -1,7 +1,6 @@
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -11,14 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.ScreenManager;
-import com.mygdx.game.Tools;
 import com.mygdx.game.test.I18nTest;
 
-public class MenuScreen implements Screen {
-    private Stage _stage;
-    private ScreenManager _manager;
+public class MenuScreen extends GlobalScreen {
 
     public MenuScreen(ScreenManager manager){
         _manager=manager;
@@ -44,7 +39,6 @@ public class MenuScreen implements Screen {
                                      }
                                  }
         );
-
 
         TextButton imageScreen = new TextButton("Image application", style);
         imageScreen.setPosition(150, 0);
@@ -129,26 +123,6 @@ public class MenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         _stage.act();
         _stage.draw();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        _stage.getViewport().setScreenSize(width, height);
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-        Gdx.input.setInputProcessor(null);
     }
 
     @Override

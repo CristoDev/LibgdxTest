@@ -16,15 +16,10 @@ import com.mygdx.game.images.ImageApplication;
 import com.mygdx.game.spritesheet.AnimationManager;
 import com.mygdx.game.spritesheet.Character;
 
-
-///////////////// reprend le code de ImageApplication
-
-public class ImageScreen implements Screen {
-    private ScreenManager _manager;
-    SpriteBatch batch;
+public class ImageScreen extends GlobalScreen {
     Texture img, img2, img3;
     int x=0, y=0, dx=1, dy=2, nb=30;
-    private static final String TAG = ImageApplication.class.getSimpleName();
+    private static final String TAG = ImageScreen.class.getSimpleName();
 
     Array<Vector2> positions=new Array<Vector2>();
     Array<Vector2> deltas=new Array<Vector2>();
@@ -104,34 +99,12 @@ public class ImageScreen implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-        Gdx.input.setInputProcessor(null);
-    }
-
-    @Override
     public void dispose() {
         batch.dispose();
         img.dispose();
         img2.dispose();
         img3.dispose();
     }
-
-
 
     public void create () {
         batch = new SpriteBatch();
@@ -179,8 +152,6 @@ public class ImageScreen implements Screen {
             positions.add(new Vector2(MathUtils.random(0, 200), MathUtils.random(0, 300)));
             deltas.add(new Vector2(1, 1));
         }
-
-
     }
 
     public void createSprite() {
@@ -192,8 +163,4 @@ public class ImageScreen implements Screen {
         Sprite tmp1=new Sprite(img2);
         sprite.addComponentSprite(tmp1, 300, 100);
     }
-
-
-
-
 }

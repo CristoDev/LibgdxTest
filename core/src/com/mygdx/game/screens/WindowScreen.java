@@ -1,6 +1,5 @@
 package com.mygdx.game.screens;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -22,13 +21,9 @@ import com.mygdx.game.Tools;
 import com.mygdx.game.window.MyWindow;
 
 
-public class WindowScreen implements Screen {
-    private Stage _stage;
-    private ScreenManager _manager;
-
+public class WindowScreen extends GlobalScreen {
     private final static String STATUSUI_TEXTURE_ATLAS_PATH = "gui/my_window.atlas";
     private final static String STATUSUI_SKIN_PATH = "gui/my_window.json";
-
     private static TextureAtlas STATUSUI_TEXTUREATLAS = new TextureAtlas(STATUSUI_TEXTURE_ATLAS_PATH);
     private static Skin STATUSUI_SKIN = new Skin(Gdx.files.internal(STATUSUI_SKIN_PATH), STATUSUI_TEXTUREATLAS);
 
@@ -41,7 +36,6 @@ public class WindowScreen implements Screen {
     private int moveX=5, moveY=2, posX=50, posY=80;
     private double red=0.5, green=0.33, blue=0.84, deltaRed=0.017, deltaGreen=0.021, deltaBlue=0.013;
 
-
     public WindowScreen(ScreenManager manager) {
         _manager=manager;
         _stage = new Stage(new ScreenViewport());
@@ -51,7 +45,6 @@ public class WindowScreen implements Screen {
     }
 
     private void createWindowFromBook() {
-
         winBook = new MyWindow("Fenetre BOOK\nblabla titre suite?");
         winBook.createWindowFromBook();
         winBook.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
@@ -64,8 +57,6 @@ public class WindowScreen implements Screen {
 
         //Add to layout
         w.defaults().expand().fill();
-
-        //account for the title padding
         w.pad(w.getPadTop() + 10, 10, 10, 10);
 
         w.add(hpLabel);
@@ -75,9 +66,7 @@ public class WindowScreen implements Screen {
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(0.6f, 0.3f, 0.2f, 0.4f);
         pixmap.fill();
-        //w.setBackground(new TextureRegionDrawable(new TextureRegion(new  Texture(pixmap))));
         w.setBackground(new TextureRegionDrawable(new  Texture(pixmap)));
-
         w.pack();
 
         w.setVisible(true);
@@ -86,13 +75,11 @@ public class WindowScreen implements Screen {
         _stage.addActor(w);
     }
 
-
     private void createButton() {
         NinePatch patch = new NinePatch(new Texture(Gdx.files.internal("gui/my_window_alt.9.png")), 14, 14, 14, 14);
         NinePatchDrawable patchDrawable=new NinePatchDrawable(patch);
-        // Create a new TextButtonStyle
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(patchDrawable, patchDrawable, patchDrawable, new BitmapFont());
-        // Instantiate the Button itself.
+
         TextButton button = new TextButton("hello world from blabablabalb and ablblbalbabl\nnew line\n\n\n\n\n\n\n\net 8 de plus", style);
         button.addListener(new ClickListener() {
             @Override
@@ -107,7 +94,6 @@ public class WindowScreen implements Screen {
 
             }
         });
-        // add button to stage
 
         _stage.addActor(button);
     }
@@ -119,9 +105,7 @@ public class WindowScreen implements Screen {
         posY=(int)(Gdx.graphics.getHeight()*2/3-image1.getHeight()/2);
         image1.setPosition((int)(Gdx.graphics.getWidth()/3-image1.getWidth()/2),(int)(Gdx.graphics.getHeight()*2/3-image1.getHeight()/2));
         _stage.addActor(image1);
-
     }
-
 
     private void changeColors()
     {
@@ -187,26 +171,6 @@ public class WindowScreen implements Screen {
         }
 
         Gdx.input.setInputProcessor(_stage);
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        _stage.getViewport().setScreenSize(width, height);
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-        Gdx.input.setInputProcessor(null);
     }
 
     @Override

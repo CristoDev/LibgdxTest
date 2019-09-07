@@ -54,6 +54,7 @@ public class CharacterAtlasBuilder {
     }
 
     private void copyBody(String name) {
+        // utile mais l'ecriture sur disque prend du temps...
         FileHandle hFile=Gdx.files.internal("Universal-LPC-spritesheet/body/male/"+name+".png");
         FileHandle destFile=new FileHandle("images/default_character.png");
         hFile.copyTo(destFile);

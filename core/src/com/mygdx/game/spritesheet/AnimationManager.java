@@ -161,9 +161,9 @@ public class AnimationManager {
 
 
 
-    protected void loadAnimationFromDefaultFile(AnimationState animationState) {
+    protected void loadAnimationFromDefaultFile(TextureAtlas textureAtlas, AnimationState animationState) {
         for (AnimationDirection direction : AnimationDirection.values()) {
-            Array<TextureAtlas.AtlasRegion> regions = new TextureAtlas("images/default_character.atlas").findRegions(animationState.name()+"_"+direction.name());
+            Array<TextureAtlas.AtlasRegion> regions = textureAtlas.findRegions(animationState.name()+"_"+direction.name());
             HashMap<String, Animation<TextureRegion>> animation=new HashMap<>();
             animation.put(direction.name(), new Animation(frameDuration, regions, Animation.PlayMode.LOOP));
             _animationsFull.put(animationState, animation);
@@ -174,8 +174,10 @@ public class AnimationManager {
         }
     }
 
+    // utile mais l'écriture sur disque prend du temps...
     protected void loadAllAnimationsFromDefaultFile() {
         buildTexture();
+
         FileHandle destFile=new FileHandle("images/default_character.png");
 
         if (destFile.exists()) {
@@ -190,29 +192,9 @@ public class AnimationManager {
             Tools.debug(TAG, "EXCEPTION!!!!!! "+exception.getMessage());
         }
 
-         /*
-        PixmapIO.PNG pngFile=new PixmapIO.PNG();
-
-        try{
-            FileHandle fh = new FileHandle("images/default_character_alt.png");
-            if (fh.exists()) {
-                Tools.debug(TAG, "suppression du fichier");
-                fh.delete();
-            }
-
-
-            PixmapIO.writePNG(fh, character);
-            fh.copyTo(destFile);
-
-            //pixmap.dispose();
-        }catch (Exception e){
-            Tools.debug(TAG, "exception "+e.getLocalizedMessage());
-        }
-
-
-          */
+        TextureAtlas textureAtlas=new TextureAtlas("images/default_character.atlas");
         for (AnimationState state : AnimationState.values()) {
-            loadAnimationFromDefaultFile(state);
+            loadAnimationFromDefaultFile(textureAtlas, state);
         }
 
         HashMap<String, Animation<TextureRegion>> animation=_animationsFull.get(_currentAnimationState);

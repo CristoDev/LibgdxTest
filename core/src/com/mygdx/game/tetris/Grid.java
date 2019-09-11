@@ -94,7 +94,6 @@ public class Grid {
         for(int[] point : _currentPiece.getCurrentPiece()) {
             if ((_grid[(int)position.y + point[1]][(int)position.x + point[0]] != 0) ||
                     (_grid[(int)position.y + point[1]][(int)position.x + point[0]] != 0)) {
-                Tools.debug(TAG, "VALEUR "+(int)(position.x + point[0])+" / "+(int)(position.y + point[1])+" = "+_grid[(int)position.y + point[1]][(int)position.x + point[0]]);
                 return false;
             }
         }
@@ -109,7 +108,6 @@ public class Grid {
             }
 
             if ((position.y+point[1] < 0) || (position.y+point[1] >= _height)) {
-                Tools.debug(TAG, "bordure Y, "+position.y+" + "+point[1]+" VS "+_height);
                 return false;
             }
         }
@@ -156,6 +154,7 @@ public class Grid {
         }
         else {
             addPieceToGrid();
+            checkCompleteLines();
             getNewPiece();
         }
     }
@@ -163,7 +162,9 @@ public class Grid {
     public void showGrid() {
         for (int line=_height-1; line>=0; line--) {
             showLine(line);
-            isCompleteLine(line);
+            if (isCompleteLine(line)) {
+
+            }
         }
     }
 
@@ -176,12 +177,24 @@ public class Grid {
         Tools.debug(TAG, result);
     }
 
-    public void isCompleteLine(int line) {
-        int sum = IntStream.of(_grid[line]).sum();
-
-        if (sum == _width) {
-            Tools.debug(TAG, "ligne complete ++++++++++++++++++++++");
+    private void removeLine(int line) {
+        for (int i=line; i<_height-1; i++) {
+            _grid[i]=_grid[i+1];
         }
+
+        Arrays.fill(_grid[_height-1], 0);
+    }
+
+    private void checkCompleteLines() {
+        for (int line=_height-1; line>=0; line--) {
+            if (isCompleteLine(line)) {
+                removeLine(line);
+            }
+        }
+    }
+
+    public boolean isCompleteLine(int line) {
+        return (IntStream.of(_grid[line]).sum() == _width);
     }
 
     public int[][] getGrid() {

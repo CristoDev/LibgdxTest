@@ -2,6 +2,7 @@ package com.mygdx.game.tetris;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Tools;
+import com.sun.corba.se.impl.oa.toa.TOA;
 
 import java.util.Arrays;
 import java.util.stream.IntStream;
@@ -41,8 +42,28 @@ public class Grid {
     public void todo() {
         addTest();
         _currentPiece=new Piece();
-        // @TODO modifier ici pour ne pas avoir de points hors grille (par exemple une ligne verticale)
+        setInitialPosition();
+    }
+
+    private void getNewPiece() {
+        _currentPiece.nextPiece();
+        setInitialPosition();
+    }
+
+    private void setInitialPosition() {
         _currentPosition=new Vector2(_width/2, _height-1);
+
+        if (!testCollisionBorder(new Vector2(_currentPosition.x, _currentPosition.y))) {
+            if (testCollisionBorder(new Vector2(_currentPosition.x, _currentPosition.y-1))) {
+                _currentPosition.y--;
+            }
+            else if (testCollisionBorder(new Vector2(_currentPosition.x, _currentPosition.y-2))) {
+                _currentPosition.y-=2;
+            }
+            else {
+                Tools.debug(TAG, "GAME OVER");
+            }
+        }
     }
 
     public void addTest() {
@@ -61,6 +82,12 @@ public class Grid {
             b- décaler les lignes vers le bas
         4- continuer avec une nouvelle pièce
          */
+    }
+
+    private void addPieceToGrid() {
+        for(int[] point : _currentPiece.getCurrentPiece()) {
+            _grid[(int)_currentPosition.y+point[1]][(int)_currentPosition.x + point[0]]=1;
+        }
     }
 
     public boolean testCollisionBrick(Vector2 position) {
@@ -82,7 +109,7 @@ public class Grid {
             }
 
             if ((position.y+point[1] < 0) || (position.y+point[1] >= _height)) {
-                Tools.debug(TAG, "bordure Y, "+point[0]+","+point[1]);
+                Tools.debug(TAG, "bordure Y, "+position.y+" + "+point[1]+" VS "+_height);
                 return false;
             }
         }
@@ -95,16 +122,20 @@ public class Grid {
     }
 
 
-    // @TODO à faire et tester (+decalage position)
+    // @TODO modifier le code de rotation de la barre
     public void rotateLeft() {
-        //checkMovement();
         _currentPiece.rotateLeft();
+        if (!noCollision(0, 0)) {
+            _currentPiece.rotateRight();
+        }
     }
 
-    // @TODO à faire et tester (+decalage position)
+    // @TODO modifier le code de rotation de la barre
     public void rotateRight() {
-        //checkMovement();
         _currentPiece.rotateRight();
+        if (!noCollision(0, 0)) {
+            _currentPiece.rotateLeft();
+        }
     }
 
     public void moveLeft() {
@@ -123,8 +154,9 @@ public class Grid {
         if (noCollision(0, -1)) {
             _currentPosition.y--;
         }
-        else { // @TODO a finir
-            Tools.debug(TAG, "bloquer la pièce et nouvelle pièce + position en haut");
+        else {
+            addPieceToGrid();
+            getNewPiece();
         }
     }
 

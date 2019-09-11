@@ -16,7 +16,7 @@
   },
   "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
     default: { font: myFont, fontColor: white },
-    toggle: { font: myFont, fontColor: white, downFontColor: red },
+    toggle: { font: myFont, fontColor: white, downFontColor: green },
     inventory: { font: myFont, disabledFontColor: red, fontColor: cyan }
   },
 }

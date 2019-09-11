@@ -23,7 +23,7 @@ public class ImageBarBuilder implements Screen {
     private Image _imageHP, _imageMP;
     private Stage _stage;
     private float _timeHP=0, _timeMP=0, _durationHP=3, _durationMP=1;
-    private TextButton _buttonMP, _buttonHP, _buttonSkin;
+    private TextButton _buttonMP, _buttonHP, _buttonSkin, _buttonStyle;
 
     private final static String STATUSUI_TEXTURE_ATLAS_PATH = "gui/statusui.atlas";
     private final static String STATUSUI_SKIN_PATH = "gui/statusui.json";
@@ -76,18 +76,12 @@ public class ImageBarBuilder implements Screen {
         });
         _stage.addActor(_buttonSkin);
 
-        /*
-        NinePatch patch = new NinePatch(new Texture(Gdx.files.internal("gui/my_window_alt.9.png")), 14, 14, 14, 14);
-        NinePatchDrawable patchDrawable=new NinePatchDrawable(patch);
-        FreeTypeFontGenerator ftfGen = new FreeTypeFontGenerator(Gdx.files.internal("fonts/impact.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        params.size = 16;
-        BitmapFont font12 = ftfGen.generateFont(params);
-        ftfGen.dispose();
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(patchDrawable, patchDrawable, patchDrawable, font12);
-
-        _buttonMP= new TextButton("Attaque MP", style);
-         */
+        // creation d'un bouton avec plusieurs styles: over, up, down, disabled
+        Skin testSkin = new Skin(Gdx.files.internal("gui/ui_rpg.json"), new TextureAtlas("gui/ui_rpg.pack"));
+        _buttonStyle=new TextButton("Style de bouton", testSkin, "testme");
+        _buttonStyle.setPosition(x, y+300);
+        _buttonStyle.setDisabled(true);
+        _stage.addActor(_buttonStyle);
     }
 
     private void addMenuButton() {
@@ -97,11 +91,6 @@ public class ImageBarBuilder implements Screen {
 
         // permet de tester le changement de couleur pour le texte du bouton
         _buttonMP=new TextButton("Attaque MP", STATUSUI_SKIN, "inventory");
-
-        /*
-
-*/
-
         _buttonMP.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -156,6 +145,7 @@ public class ImageBarBuilder implements Screen {
             Tools.debug(TAG, "Activation HP +++++");
             _buttonHP.setDisabled(false);
             _buttonHP.setTouchable(Touchable.enabled);
+            _buttonStyle.setDisabled(false);
         }
 
         if (_timeMP > _durationMP && _buttonMP.isDisabled()) {

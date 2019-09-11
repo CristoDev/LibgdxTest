@@ -38,7 +38,7 @@ public class ImageMenuScreen extends GlobalScreen  {
         batch.setProjectionMatrix(_camera.combined);
         batch.begin();
 
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
+        Gdx.gl.glClearColor(0f, 0.2f, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         _imageBuilder.render(batch);
         batch.end();

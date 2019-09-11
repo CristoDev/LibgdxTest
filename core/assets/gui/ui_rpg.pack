@@ -126,6 +126,7 @@ buttonSquare_beige
   rotate: false
   xy: 970, 207
   size: 45, 49
+  split: 8, 8, 8, 8
   orig: 45, 49
   offset: 0, 0
   index: -1
@@ -147,6 +148,7 @@ buttonSquare_grey
   rotate: false
   xy: 752, 107
   size: 45, 49
+  split: 8, 8, 8, 8
   orig: 45, 49
   offset: 0, 0
   index: -1
@@ -154,6 +156,7 @@ buttonSquare_beige_pressed
   rotate: false
   xy: 970, 162
   size: 45, 45
+  split: 8, 8, 8, 8
   orig: 45, 45
   offset: 0, 0
   index: -1

@@ -21,7 +21,8 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
     private Grid _grid;
     private Sprite cube, empty, piece;
     private int _spriteWidth=20, _spriteHeight=20;
-    private float _timer=0f, _duration=3f, _currentDuration=3f;
+    private float _timer=0f, _duration=3f, _currentDuration=3f, _moveTimer=0;
+    private boolean _moveDown=false, _moveLeft=false, _moveRight=false;
 
     private static final String TAG = GridScreen.class.getSimpleName();
 
@@ -83,8 +84,10 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
         }
     }
 
+    // @TODO reset movedown quand on positionne une piece (nouvelle piece)
     private void update(float delta) {
         _timer+=delta;
+        _moveTimer+=delta;
 
         if (_timer > _currentDuration) {
             _timer=0;
@@ -96,6 +99,22 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
             _grid.resetNbLines();
 
             _currentDuration= MathUtils.clamp(_duration-_tetriUI.getLevel()/10, 0.3f, _duration);
+            _moveDown=false;
+        }
+
+        if (_moveDown && _moveTimer > 0.05) {
+            _grid.moveDown();
+            _moveTimer=0;
+        }
+
+        if (_moveLeft && _moveTimer > 0.1) {
+            _grid.moveLeft();
+            _moveTimer=0;
+        }
+
+        if (_moveRight && _moveTimer > 0.1) {
+            _grid.moveRight();
+            _moveTimer=0;
         }
     }
 
@@ -106,7 +125,7 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
         batch.setProjectionMatrix(_camera.combined);
         batch.begin();
 
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
+        Gdx.gl.glClearColor(0.5f, 0.5f, 0.8f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         renderGrid();
@@ -125,15 +144,17 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         if( keycode == Input.Keys.LEFT){
-            _grid.moveLeft();
+            _moveLeft=true;
+            _moveRight=false;
         }
 
         if( keycode == Input.Keys.RIGHT){
-            _grid.moveRight();
+            _moveRight=true;
+            _moveLeft=false;
         }
 
         if( keycode == Input.Keys.DOWN){
-            _grid.moveDown();
+            _moveDown=true;
         }
 
         if( keycode == Input.Keys.A){
@@ -149,6 +170,19 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
+        if( keycode == Input.Keys.DOWN){
+            _moveDown=false;
+        }
+
+        if( keycode == Input.Keys.LEFT){
+            //_grid.moveLeft();
+            _moveLeft=false;
+        }
+
+        if( keycode == Input.Keys.RIGHT){
+            //_grid.moveRight();
+            _moveRight=false;
+        }
         return false;
     }
 

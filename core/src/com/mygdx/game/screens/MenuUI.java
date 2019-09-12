@@ -18,7 +18,7 @@ public class MenuUI extends GlobalScreen {
         addMenuButton();
     }
 
-    private void addMenuButton() {
+    protected void addMenuButton() {
         NinePatch patch = new NinePatch(new Texture(Gdx.files.internal("gui/my_window_alt.9.png")), 14, 14, 14, 14);
         NinePatchDrawable patchDrawable=new NinePatchDrawable(patch);
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(patchDrawable, patchDrawable, patchDrawable, new BitmapFont());

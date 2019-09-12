@@ -10,7 +10,7 @@ import java.util.stream.IntStream;
 public class Grid {
     private static final String TAG = Grid.class.getSimpleName();
 
-    private int _width=10, _height=22;
+    private int _width=10, _height=22, _nbLines=0;
     private int[][] _grid;
     private Piece _currentPiece;
     private Vector2 _currentPosition;
@@ -61,6 +61,7 @@ public class Grid {
                 _currentPosition.y-=2;
             }
             else {
+                // @TODO à faire
                 Tools.debug(TAG, "GAME OVER");
             }
         }
@@ -71,17 +72,6 @@ public class Grid {
         _grid[1]=b;
         _grid[2]=c;
         _grid[3]=d;
-    }
-
-    public void checkGrid() {
-        /*
-        1- pose d'une piece dans le tableau
-        2- parcourir les lignes
-        3- si une ligne est faite
-            a- supprimer la ligne
-            b- décaler les lignes vers le bas
-        4- continuer avec une nouvelle pièce
-         */
     }
 
     private void addPieceToGrid() {
@@ -159,24 +149,6 @@ public class Grid {
         }
     }
 
-    public void showGrid() {
-        for (int line=_height-1; line>=0; line--) {
-            showLine(line);
-            if (isCompleteLine(line)) {
-
-            }
-        }
-    }
-
-    public void showLine(int line) {
-        String result=line+":\t";
-        for (int x=0; x<_width; x++) {
-            result+=_grid[line][x]+",";
-        }
-
-        Tools.debug(TAG, result);
-    }
-
     private void removeLine(int line) {
         for (int i=line; i<_height-1; i++) {
             _grid[i]=_grid[i+1];
@@ -186,11 +158,21 @@ public class Grid {
     }
 
     private void checkCompleteLines() {
+        resetNbLines();
         for (int line=_height-1; line>=0; line--) {
             if (isCompleteLine(line)) {
                 removeLine(line);
+                _nbLines++;
             }
         }
+    }
+
+    public void resetNbLines() {
+        _nbLines=0;
+    }
+
+    public int getNbLines() {
+        return _nbLines;
     }
 
     public boolean isCompleteLine(int line) {

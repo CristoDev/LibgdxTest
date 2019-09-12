@@ -9,19 +9,19 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.ScreenManager;
-import com.mygdx.game.Tools;
 import com.mygdx.game.screens.GlobalScreen;
-import com.mygdx.game.screens.MenuUI;
+
 
 // pas super propre de faire un InputProcessor ici, mais c'est au plus rapide
 public class GridScreen extends GlobalScreen implements InputProcessor {
-    private MenuUI _menuUI;
+    private TetrisUI _tetriUI;
     private Grid _grid;
     private Sprite cube, empty, piece;
     private int _spriteWidth=20, _spriteHeight=20;
-    private float _timer=0f, _duration=3f;
+    private float _timer=0f, _duration=3f, _currentDuration=3f;
 
     private static final String TAG = GridScreen.class.getSimpleName();
 
@@ -39,12 +39,12 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
         _camera = new OrthographicCamera();
         _camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
 
-        _menuUI=new MenuUI(_manager);
+        _tetriUI=new TetrisUI(_manager);
 
         _multiplexer = new InputMultiplexer();
         _multiplexer.addProcessor(this);
-        _multiplexer.addProcessor(_menuUI.getStage());
-        batch=(SpriteBatch)_menuUI.getStage().getBatch();
+        _multiplexer.addProcessor(_tetriUI.getStage());
+        batch=(SpriteBatch)_tetriUI.getStage().getBatch();
 
         Gdx.input.setInputProcessor(_multiplexer);
 
@@ -86,12 +86,18 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
     private void update(float delta) {
         _timer+=delta;
 
-        if (_timer > _duration) {
+        if (_timer > _currentDuration) {
             _timer=0;
             _grid.moveDown();
         }
-    }
 
+        if (_grid.getNbLines() != 0) {
+            _tetriUI.setElements(_grid.getNbLines());
+            _grid.resetNbLines();
+
+            _currentDuration= MathUtils.clamp(_duration-_tetriUI.getLevel()/10, 0.3f, _duration);
+        }
+    }
 
     @Override
     public void render(float delta) {
@@ -108,12 +114,12 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
 
         batch.end();
 
-        _menuUI.render(delta);
+        _tetriUI.render(delta);
     }
 
     @Override
     public void dispose() {
-        _menuUI.dispose();
+        _tetriUI.dispose();
     }
 
     @Override

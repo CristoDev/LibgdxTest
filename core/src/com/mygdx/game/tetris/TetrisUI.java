@@ -11,7 +11,7 @@ import com.mygdx.game.screens.MenuUI;
 
 public class TetrisUI extends MenuUI {
     private int _score=0, _lines=0, _level=0;
-    private int[] _scoring={40, 100, 300, 1200};
+    private int[] _scoring={0, 40, 100, 300, 1200};
     private Label _scoreLabel, _linesLabel, _levelLabel;
     private Table _infos;
 

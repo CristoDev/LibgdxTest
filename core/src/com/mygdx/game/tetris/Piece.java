@@ -2,9 +2,11 @@ package com.mygdx.game.tetris;
 
 import com.mygdx.game.Tools;
 
+import javax.tools.Tool;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
 
 public class Piece {
     private static final String TAG = Piece.class.getSimpleName();
@@ -22,6 +24,9 @@ public class Piece {
 
     private String[] piecesName={"I", "O", "T", "L", "J", "Z", "S"};
     private static Random random=new Random();
+    private Map<String, Integer> stats=new TreeMap<>();
+    private Map<String, Integer> distances=new TreeMap<>();
+    private Map<String, Float> proba=new TreeMap<>();
 
     private String currentPieceName=null;
     private int[][] currentPiece=null;
@@ -35,14 +40,82 @@ public class Piece {
         pieces.put("Z", this.Z);
         pieces.put("S", this.S);
 
+        stats.put("I", 4);
+        stats.put("O", 2);
+        stats.put("T", 3);
+        stats.put("L", 1);
+        stats.put("J", 1);
+        stats.put("Z", 3);
+        stats.put("S", 2);
+
+        randomPiece();
         nextPiece();
     }
 
     public int[][] nextPiece() {
+        /*
         currentPieceName=piecesName[random.nextInt(piecesName.length)];
         currentPiece=pieces.get(currentPieceName);
+        incrementeStats(currentPieceName);
 
         return getCurrentPiece();
+
+         */
+
+        return randomPiece();
+    }
+
+    private int[][] randomPiece() {
+        /*
+        M: la valeur la plus haute
+        pour chaque piece
+            M+1 - nbPiece
+        proba
+        somme des valeurs
+
+        valeurs/somme
+ */
+        int max=0;
+        for(Map.Entry<String, Integer> entry : stats.entrySet()) {
+            int valeur = entry.getValue();
+
+            if (valeur > max) {
+                max=valeur;
+            }
+        }
+
+        int sommeDistance=0;
+        for(Map.Entry<String, Integer> entry : stats.entrySet()) {
+            int valeur = entry.getValue();
+
+            distances.put(entry.getKey(), max+1-valeur);
+            sommeDistance+=max+1-valeur;
+        }
+
+        float sommeProba=0f;
+        for(Map.Entry<String, Integer> entry : distances.entrySet()) {
+            sommeProba+=(float)entry.getValue()/sommeDistance;
+            proba.put(entry.getKey(), sommeProba);
+        }
+
+        float value=random.nextFloat();
+
+        for(Map.Entry<String, Float> entry : proba.entrySet()) {
+            if (entry.getValue() > value) {
+                currentPieceName=entry.getKey();
+                break;
+            }
+        }
+
+        currentPiece=pieces.get(currentPieceName);
+        incrementeStats(currentPieceName);
+
+        return getCurrentPiece();
+
+    }
+
+    public void incrementeStats(String piece) {
+        stats.put(piece, stats.get(piece)+1);
     }
 
     public int[][] getCurrentPiece() {
@@ -79,5 +152,8 @@ public class Piece {
         return result+"}";
     }
 
+    public Map<String, Integer> getStats() {
+        return stats;
+    }
 
 }

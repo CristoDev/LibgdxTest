@@ -5,6 +5,7 @@ import com.mygdx.game.Tools;
 import com.sun.corba.se.impl.oa.toa.TOA;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 public class Grid {
@@ -189,5 +190,13 @@ public class Grid {
 
     public Vector2 getCurrentPosition() {
         return _currentPosition;
+    }
+
+    public Map<String, Integer> getStats() {
+        return _currentPiece.getStats();
+    }
+
+    public int getStatsSomme() {
+        return _currentPiece.getStatsSomme();
     }
 }

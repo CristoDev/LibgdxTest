@@ -27,6 +27,7 @@ public class Piece {
     private Map<String, Integer> stats=new TreeMap<>();
     private Map<String, Integer> distances=new TreeMap<>();
     private Map<String, Float> proba=new TreeMap<>();
+    private int statsSomme=0;
 
     private String currentPieceName=null;
     private int[][] currentPiece=null;
@@ -76,8 +77,10 @@ public class Piece {
         valeurs/somme
  */
         int max=0;
+        statsSomme=0;
         for(Map.Entry<String, Integer> entry : stats.entrySet()) {
             int valeur = entry.getValue();
+            statsSomme+=valeur;
 
             if (valeur > max) {
                 max=valeur;
@@ -99,7 +102,6 @@ public class Piece {
         }
 
         float value=random.nextFloat();
-
         for(Map.Entry<String, Float> entry : proba.entrySet()) {
             if (entry.getValue() > value) {
                 currentPieceName=entry.getKey();
@@ -111,7 +113,6 @@ public class Piece {
         incrementeStats(currentPieceName);
 
         return getCurrentPiece();
-
     }
 
     public void incrementeStats(String piece) {
@@ -154,6 +155,10 @@ public class Piece {
 
     public Map<String, Integer> getStats() {
         return stats;
+    }
+
+    public int getStatsSomme() {
+        return statsSomme;
     }
 
 }

@@ -42,6 +42,7 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
 
         _tetriUI=new TetrisUI(_manager);
 
+
         _multiplexer = new InputMultiplexer();
         _multiplexer.addProcessor(this);
         _multiplexer.addProcessor(_tetriUI.getStage());
@@ -60,7 +61,7 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
 
     public void buildGrid() {
         _grid.todo();
-
+        _tetriUI.addStats(_grid.getStats(), _grid.getStatsSomme());
     }
 
     private void renderGrid() {
@@ -116,6 +117,8 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
             _grid.moveRight();
             _moveTimer=0;
         }
+
+        _tetriUI.update(_grid.getStats(), _grid.getStatsSomme());
     }
 
     @Override

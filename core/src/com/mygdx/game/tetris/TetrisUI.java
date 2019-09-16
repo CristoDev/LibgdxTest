@@ -9,11 +9,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.game.ScreenManager;
 import com.mygdx.game.screens.MenuUI;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 public class TetrisUI extends MenuUI {
     private int _score=0, _lines=0, _level=0;
     private int[] _scoring={0, 40, 100, 300, 1200};
-    private Label _scoreLabel, _linesLabel, _levelLabel;
-    private Table _infos;
+    private Label _scoreLabel, _linesLabel, _levelLabel, _statsSommeLabel;
+    private Map<String, Label> _statsLabel=new TreeMap<>();
+    private Table _infos, _stats;
 
     private final static String STATUSUI_TEXTURE_ATLAS_PATH = "gui/ui_rpg.pack";
     private final static String STATUSUI_SKIN_PATH = "gui/ui_rpg.json";
@@ -42,6 +46,30 @@ public class TetrisUI extends MenuUI {
         _stage.addActor(_infos);
 
         _infos.setPosition(50, 500);
+    }
+
+    public void addStats(Map<String, Integer> stats, int statsSomme) {
+        _stats=new Table();
+        for(Map.Entry<String, Integer> entry : stats.entrySet()) {
+            _statsLabel.put(entry.getKey(), new Label(entry.getKey()+": "+entry.getValue()+" - "+String.format("%.3f",100f/statsSomme*entry.getValue())+"%", STATUSUI_SKIN));
+            _stats.add(_statsLabel.get(entry.getKey()));
+            _stats.row();
+        }
+
+        _stats.row();
+        _statsSommeLabel=new Label("Total: "+statsSomme+" pièces tombées.", STATUSUI_SKIN);
+        _stats.add(_statsSommeLabel);
+
+        _stage.addActor(_stats);
+        _stats.setPosition(500, 300);
+    }
+
+    public void update(Map<String, Integer> stats, int statsSomme) {
+        for(Map.Entry<String, Integer> entry : stats.entrySet()) {
+            _statsLabel.get(entry.getKey()).setText(entry.getKey()+": "+entry.getValue()+" - "+String.format("%.3f",100f/statsSomme*entry.getValue())+"%");
+        }
+
+        _statsSommeLabel.setText("Total: "+statsSomme+" pièces tombées.");
     }
 
     @Override

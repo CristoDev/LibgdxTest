@@ -67,15 +67,6 @@ public class Piece {
     }
 
     private int[][] randomPiece() {
-        /*
-        M: la valeur la plus haute
-        pour chaque piece
-            M+1 - nbPiece
-        proba
-        somme des valeurs
-
-        valeurs/somme
- */
         int max=0;
         statsSomme=0;
         for(Map.Entry<String, Integer> entry : stats.entrySet()) {

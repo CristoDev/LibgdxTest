@@ -14,17 +14,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.ScreenManager;
 import com.mygdx.game.screens.GlobalScreen;
 
-
-// pas super propre de faire un InputProcessor ici, mais c'est au plus rapide
 public class GridScreen extends GlobalScreen implements InputProcessor {
     private TetrisUI _tetriUI;
     private Grid _grid;
     private Sprite cube, empty, piece;
     private int _spriteWidth=20, _spriteHeight=20;
-    private float _timer=0f, _duration=3f, _currentDuration=3f, _moveTimer=0;
+    private float _timer=0f, _duration=3f, _currentDuration=3f, _moveTimer=0, _moveDownTimer=0;
     private boolean _moveDown=false, _moveLeft=false, _moveRight=false;
-
-    private static final String TAG = GridScreen.class.getSimpleName();
 
     public GridScreen(ScreenManager manager) {
         _manager=manager;
@@ -41,25 +37,22 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
         _camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
 
         _tetriUI=new TetrisUI(_manager);
-
+        batch=(SpriteBatch)_tetriUI.getStage().getBatch();
 
         _multiplexer = new InputMultiplexer();
         _multiplexer.addProcessor(this);
         _multiplexer.addProcessor(_tetriUI.getStage());
-        batch=(SpriteBatch)_tetriUI.getStage().getBatch();
-
         Gdx.input.setInputProcessor(_multiplexer);
-
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("gui/ui_rpg.pack"));
-        cube=new Sprite(atlas.findRegion("buttonSquare_beige_pressed"));
-        empty=new Sprite(atlas.findRegion("buttonSquare_grey_pressed"));
-        piece=new Sprite(atlas.findRegion("buttonSquare_blue_pressed"));
-
 
         buildGrid();
     }
 
     public void buildGrid() {
+        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("gui/ui_rpg.pack"));
+        cube=new Sprite(atlas.findRegion("buttonSquare_beige_pressed"));
+        empty=new Sprite(atlas.findRegion("buttonSquare_grey_pressed"));
+        piece=new Sprite(atlas.findRegion("buttonSquare_blue_pressed"));
+
         _grid.todo();
         _tetriUI.addStats(_grid.getStats(), _grid.getStatsSomme());
     }
@@ -89,10 +82,13 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
     private void update(float delta) {
         _timer+=delta;
         _moveTimer+=delta;
+        _moveDownTimer+=delta;
 
         if (_timer > _currentDuration) {
             _timer=0;
-            _grid.moveDown();
+            if (_grid.moveDown()) {
+                _moveDownTimer=0;
+            }
         }
 
         if (_grid.getNbLines() != 0) {
@@ -101,10 +97,13 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
 
             _currentDuration= MathUtils.clamp(_duration-_tetriUI.getLevel()/10, 0.3f, _duration);
             _moveDown=false;
+            _moveDownTimer=0;
         }
 
-        if (_moveDown && _moveTimer > 0.05) {
-            _grid.moveDown();
+        if (_moveDown && _moveTimer > 0.05 && _moveDownTimer > 1f) {
+            if (_grid.moveDown()) {
+                _moveDownTimer=0;
+            }
             _moveTimer=0;
         }
 
@@ -178,12 +177,10 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
         }
 
         if( keycode == Input.Keys.LEFT){
-            //_grid.moveLeft();
             _moveLeft=false;
         }
 
         if( keycode == Input.Keys.RIGHT){
-            //_grid.moveRight();
             _moveRight=false;
         }
         return false;

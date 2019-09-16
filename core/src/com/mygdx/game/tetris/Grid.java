@@ -139,14 +139,18 @@ public class Grid {
         }
     }
 
-    public void moveDown() {
+    public boolean moveDown() {
         if (noCollision(0, -1)) {
             _currentPosition.y--;
+
+            return false;
         }
         else {
             addPieceToGrid();
             checkCompleteLines();
             getNewPiece();
+
+            return true;
         }
     }
 

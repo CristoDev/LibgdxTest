@@ -30,7 +30,7 @@ public class TetrisUI extends MenuUI {
         addUI();
     }
 
-    public void addUI() {
+    private void addUI() {
         _scoreLabel = new Label("Score: "+_score, STATUSUI_SKIN);
         _linesLabel= new Label("Lignes: "+_lines, STATUSUI_SKIN);
         _levelLabel= new Label("Level: "+_level, STATUSUI_SKIN);
@@ -44,7 +44,6 @@ public class TetrisUI extends MenuUI {
         _infos.row();
 
         _stage.addActor(_infos);
-
         _infos.setPosition(50, 500);
     }
 
@@ -80,9 +79,7 @@ public class TetrisUI extends MenuUI {
 
         _stage.act(delta);
         _stage.draw();
-
     }
-
 
     public void setElements(int nbLines) {
         setScore(nbLines);

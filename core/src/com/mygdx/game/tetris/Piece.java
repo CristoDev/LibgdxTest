@@ -41,13 +41,13 @@ public class Piece {
         pieces.put("Z", this.Z);
         pieces.put("S", this.S);
 
-        stats.put("I", 4);
-        stats.put("O", 2);
-        stats.put("T", 3);
-        stats.put("L", 1);
-        stats.put("J", 1);
-        stats.put("Z", 3);
-        stats.put("S", 2);
+        stats.put("I", 0);
+        stats.put("O", 0);
+        stats.put("T", 0);
+        stats.put("L", 0);
+        stats.put("J", 0);
+        stats.put("Z", 0);
+        stats.put("S", 0);
 
         randomPiece();
         nextPiece();

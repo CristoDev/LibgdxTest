@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class TetrisUI extends MenuUI {
-    private int _score=0, _lines=0, _level=0;
+    private int _score=0, _lines=14, _level=0;
     private int[] _scoring={0, 40, 100, 300, 1200};
     private Label _scoreLabel, _linesLabel, _levelLabel, _statsSommeLabel;
     private Map<String, Label> _statsLabel=new TreeMap<>();

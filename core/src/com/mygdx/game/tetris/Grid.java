@@ -20,7 +20,7 @@ public class Grid {
     private int[] a={0, 0, 1, 1, 0, 1, 1, 1, 1, 1};
     private int[] b={0, 0, 1, 1, 0, 1, 1, 1, 1, 1};
     private int[] c={0, 1, 1, 1, 0, 1, 1, 1, 1, 0};
-    private int[] d={1, 1, 1, 1, 0, 1, 1, 1, 1, 0};
+    private int[] d={0, 1, 1, 1, 0, 1, 1, 1, 1, 0};
 
     public Grid() {
         initGrid();
@@ -41,7 +41,7 @@ public class Grid {
     }
 
     public void todo() {
-        addTest();
+        //addTest();
         _currentPiece=new Piece();
         setInitialPosition();
     }
@@ -76,9 +76,13 @@ public class Grid {
     }
 
     private void addPieceToGrid() {
+        Tools.debug(TAG, "pièce taille: "+_currentPiece.getCurrentPiece().length);
         for(int[] point : _currentPiece.getCurrentPiece()) {
             _grid[(int)_currentPosition.y+point[1]][(int)_currentPosition.x + point[0]]=1;
+            Tools.debug(TAG, "Ajout "+((int)_currentPosition.x + point[0])+" / "+((int)_currentPosition.y+point[1]));
         }
+        Tools.debug(TAG, "*****************************");
+
     }
 
     public boolean testCollisionBrick(Vector2 position) {

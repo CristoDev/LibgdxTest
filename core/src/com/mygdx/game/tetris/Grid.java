@@ -2,7 +2,6 @@ package com.mygdx.game.tetris;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Tools;
-import com.sun.corba.se.impl.oa.toa.TOA;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -15,12 +14,6 @@ public class Grid {
     private int[][] _grid;
     private Piece _currentPiece;
     private Vector2 _currentPosition;
-
-    ////// pour les tests
-    private int[] a={0, 0, 1, 1, 0, 1, 1, 1, 1, 1};
-    private int[] b={0, 0, 1, 1, 0, 1, 1, 1, 1, 1};
-    private int[] c={0, 1, 1, 1, 0, 1, 1, 1, 1, 0};
-    private int[] d={0, 1, 1, 1, 0, 1, 1, 1, 1, 0};
 
     public Grid() {
         initGrid();
@@ -41,7 +34,6 @@ public class Grid {
     }
 
     public void todo() {
-        //addTest();
         _currentPiece=new Piece();
         setInitialPosition();
     }
@@ -68,27 +60,15 @@ public class Grid {
         }
     }
 
-    public void addTest() {
-        _grid[0]=a;
-        _grid[1]=b;
-        _grid[2]=c;
-        _grid[3]=d;
-    }
-
     private void addPieceToGrid() {
-        Tools.debug(TAG, "pièce taille: "+_currentPiece.getCurrentPiece().length);
         for(int[] point : _currentPiece.getCurrentPiece()) {
             _grid[(int)_currentPosition.y+point[1]][(int)_currentPosition.x + point[0]]=1;
-            Tools.debug(TAG, "Ajout "+((int)_currentPosition.x + point[0])+" / "+((int)_currentPosition.y+point[1]));
         }
-        Tools.debug(TAG, "*****************************");
-
     }
 
     public boolean testCollisionBrick(Vector2 position) {
         for(int[] point : _currentPiece.getCurrentPiece()) {
-            if ((_grid[(int)position.y + point[1]][(int)position.x + point[0]] != 0) ||
-                    (_grid[(int)position.y + point[1]][(int)position.x + point[0]] != 0)) {
+            if (_grid[(int) position.y + point[1]][(int) position.x + point[0]] != 0) {
                 return false;
             }
         }
@@ -160,7 +140,7 @@ public class Grid {
 
     private void removeLine(int line) {
         for (int i=line; i<_height-1; i++) {
-            _grid[i]=_grid[i+1];
+            _grid[i]=_grid[i+1].clone();
         }
 
         Arrays.fill(_grid[_height-1], 0);

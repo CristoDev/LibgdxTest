@@ -54,15 +54,6 @@ public class Piece {
     }
 
     public int[][] nextPiece() {
-        /*
-        currentPieceName=piecesName[random.nextInt(piecesName.length)];
-        currentPiece=pieces.get(currentPieceName);
-        incrementeStats(currentPieceName);
-
-        return getCurrentPiece();
-
-         */
-
         return randomPiece();
     }
 

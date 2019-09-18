@@ -1,6 +1,8 @@
 package com.mygdx.game.tetris;
 
-import java.util.HashMap;
+import com.badlogic.gdx.math.MathUtils;
+import com.mygdx.game.Tools;
+
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
@@ -8,18 +10,26 @@ import java.util.TreeMap;
 public class Piece {
     private static final String TAG = Piece.class.getSimpleName();
 
-    // possibilite de remplacer par un ENUM
-    Map<String, int[][]> pieces=new HashMap<>();
-    // figures sous forme de coordonnes de points autour de (0,0)
-    private int[][] I={{ 0,-2},{0,-1},{0, 0},{ 0, 1}};
-    private int[][] O={{ 0, 0},{1, 0},{1,-1},{ 0,-1}};
-    private int[][] T={{-1,0}, {0, 0},{1, 0},{ 0, 1}};
-    private int[][] L={{ 1,-1},{0,-1},{0, 0},{ 0, 1}};
-    private int[][] J={{-1,-1},{0,-1},{0, 0},{ 0, 1}};
-    private int[][] Z={{ 0, 1},{0, 0},{1, 0},{ 1,-1}};
-    private int[][] S={{ 1, 1},{1, 0},{0, 0},{ 0,-1}};
+    private static enum PieceEnum {
+        I(new int[][] {{ 0,-2},{0,-1},{0, 0},{ 0, 1}}),
+        O(new int[][] {{ 0, 0},{1, 0},{1,-1},{ 0,-1}}),
+        T(new int[][] {{-1,0}, {0, 0},{1, 0},{ 0, 1}}),
+        L(new int[][] {{ 1,-1},{0,-1},{0, 0},{ 0, 1}}),
+        J(new int[][] {{-1,-1},{0,-1},{0, 0},{ 0, 1}}),
+        Z(new int[][] {{ 0, 1},{0, 0},{1, 0},{ 1,-1}}),
+        S(new int[][] {{ 1, 1},{1, 0},{0, 0},{ 0,-1}});
 
-    private String[] piecesName={"I", "O", "T", "L", "J", "Z", "S"};
+        private int[][] _data;
+
+        PieceEnum(int[][] data) {
+            _data=data;
+        }
+
+        public int[][] getData() {
+            return _data;
+        }
+    }
+
     private static Random random=new Random();
     private Map<String, Integer> stats=new TreeMap<>();
     private Map<String, Integer> distances=new TreeMap<>();
@@ -30,14 +40,6 @@ public class Piece {
     private int[][] currentPiece=null;
 
     public Piece() {
-        pieces.put("I", this.I);
-        pieces.put("O", this.O);
-        pieces.put("T", this.T);
-        pieces.put("L", this.L);
-        pieces.put("J", this.J);
-        pieces.put("Z", this.Z);
-        pieces.put("S", this.S);
-
         stats.put("I", 0);
         stats.put("O", 0);
         stats.put("T", 0);
@@ -46,15 +48,10 @@ public class Piece {
         stats.put("Z", 0);
         stats.put("S", 0);
 
-        randomPiece();
         nextPiece();
     }
 
     public int[][] nextPiece() {
-        return randomPiece();
-    }
-
-    private int[][] randomPiece() {
         int max=0;
         statsSomme=0;
         for(Map.Entry<String, Integer> entry : stats.entrySet()) {
@@ -65,6 +62,8 @@ public class Piece {
                 max=valeur;
             }
         }
+
+        statsSomme++;
 
         int sommeDistance=0;
         for(Map.Entry<String, Integer> entry : stats.entrySet()) {
@@ -88,7 +87,7 @@ public class Piece {
             }
         }
 
-        currentPiece=pieces.get(currentPieceName);
+        currentPiece=Enum.valueOf(PieceEnum.class, currentPieceName).getData();
         incrementeStats(currentPieceName);
 
         return getCurrentPiece();
@@ -139,5 +138,4 @@ public class Piece {
     public boolean isO() {
         return currentPieceName.equals("O");
     }
-
 }

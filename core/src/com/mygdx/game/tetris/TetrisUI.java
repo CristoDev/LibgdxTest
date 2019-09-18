@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class TetrisUI extends MenuUI {
-    private int _score=0, _lines=14, _level=0;
+    private int _score=0, _lines=0, _level=0;
     private int[] _scoring={0, 40, 100, 300, 1200};
     private Label _scoreLabel, _linesLabel, _levelLabel, _statsSommeLabel;
     private Map<String, Label> _statsLabel=new TreeMap<>();
@@ -91,6 +91,10 @@ public class TetrisUI extends MenuUI {
         _score+=_scoring[nbLines]*(_level+1);
     }
 
+    protected void setScorePiece() {
+        _score+=_level+1;
+    }
+
     protected void setLines(int nbLines) {
         _lines+=nbLines;
     }
@@ -101,6 +105,16 @@ public class TetrisUI extends MenuUI {
 
     public int getLevel() {
         return _level;
+    }
+
+    public void finalScore(float delta) {
+        _stage.clear();
+        Label score = new Label("Score Final: "+_score, STATUSUI_SKIN);
+        score.setPosition(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
+
+        _stage.addActor(score);
+        _stage.act(delta);
+        _stage.draw();
     }
 
 }

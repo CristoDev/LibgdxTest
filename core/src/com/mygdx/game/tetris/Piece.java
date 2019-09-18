@@ -1,8 +1,5 @@
 package com.mygdx.game.tetris;
 
-import com.mygdx.game.Tools;
-
-import javax.tools.Tool;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -121,10 +118,6 @@ public class Piece {
         }
     }
 
-    public void resumeCurrentPiece() {
-        Tools.debug(TAG, toString());
-    }
-
     public String toString() {
         String result=currentPieceName+": {";
 
@@ -141,6 +134,10 @@ public class Piece {
 
     public int getStatsSomme() {
         return statsSomme;
+    }
+
+    public boolean isO() {
+        return currentPieceName.equals("O");
     }
 
 }

@@ -78,7 +78,6 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
         }
     }
 
-    // @TODO reset movedown quand on positionne une piece (nouvelle piece)
     private void update(float delta) {
         _timer+=delta;
         _moveTimer+=delta;
@@ -88,6 +87,7 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
             _timer=0;
             if (_grid.moveDown()) {
                 _moveDownTimer=0;
+                _tetriUI.setScorePiece();
             }
         }
 
@@ -100,9 +100,10 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
             _moveDownTimer=0;
         }
 
-        if (_moveDown && _moveTimer > 0.05 && _moveDownTimer > 1f) {
+        if (_moveDown && _moveTimer > 0.05 && _moveDownTimer > 0.5f) {
             if (_grid.moveDown()) {
                 _moveDownTimer=0;
+                _tetriUI.setScorePiece();
             }
             _moveTimer=0;
         }
@@ -122,6 +123,11 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
 
     @Override
     public void render(float delta) {
+        if (_grid.isGameOver()) {
+            gameOver(delta);
+            return;
+        }
+
         update(delta);
 
         batch.setProjectionMatrix(_camera.combined);
@@ -136,6 +142,14 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
         batch.end();
 
         _tetriUI.render(delta);
+    }
+
+    private void gameOver(float delta) {
+        Gdx.gl.glClearColor(0.7f, 0.1f, 0.1f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        _tetriUI.finalScore(delta);
+
+        // @TODO ajouter les high scores
     }
 
     @Override

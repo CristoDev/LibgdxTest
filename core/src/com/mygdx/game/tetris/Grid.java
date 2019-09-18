@@ -14,6 +14,7 @@ public class Grid {
     private int[][] _grid;
     private Piece _currentPiece;
     private Vector2 _currentPosition;
+    private boolean _continu=true;
 
     public Grid() {
         initGrid();
@@ -53,10 +54,10 @@ public class Grid {
             else if (testCollisionBorder(new Vector2(_currentPosition.x, _currentPosition.y-2))) {
                 _currentPosition.y-=2;
             }
-            else {
-                // @TODO à faire
-                Tools.debug(TAG, "GAME OVER");
-            }
+        }
+
+        if (!testCollisionBrick(new Vector2(_currentPosition.x, _currentPosition.y))) {
+            _continu=false;
         }
     }
 
@@ -94,17 +95,22 @@ public class Grid {
         return testCollisionBorder(new Vector2(_currentPosition.x+dx, _currentPosition.y+dy)) && testCollisionBrick(new Vector2(_currentPosition.x+dx, _currentPosition.y+dy));
     }
 
-
-    // @TODO modifier le code de rotation de la barre
     public void rotateLeft() {
+        if (_currentPiece.isO()) {
+            return ;
+        }
+
         _currentPiece.rotateLeft();
         if (!noCollision(0, 0)) {
             _currentPiece.rotateRight();
         }
     }
 
-    // @TODO modifier le code de rotation de la barre
     public void rotateRight() {
+        if (_currentPiece.isO()) {
+            return ;
+        }
+
         _currentPiece.rotateRight();
         if (!noCollision(0, 0)) {
             _currentPiece.rotateLeft();
@@ -186,5 +192,9 @@ public class Grid {
 
     public int getStatsSomme() {
         return _currentPiece.getStatsSomme();
+    }
+
+    public boolean isGameOver() {
+        return !_continu;
     }
 }

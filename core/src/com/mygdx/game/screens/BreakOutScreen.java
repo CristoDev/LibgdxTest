@@ -1,15 +1,20 @@
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.mygdx.game.ScreenManager;
 import com.mygdx.game.Tools;
+import com.mygdx.game.breakout.BreakOut;
 
+/*
 public class BreakOutScreen  extends GlobalScreen implements InputProcessor {
     private OrthographicCamera camera;
     private ExtendViewport viewport;
@@ -59,7 +64,7 @@ public class BreakOutScreen  extends GlobalScreen implements InputProcessor {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         shapes.setProjectionMatrix(camera.combined);
         shapes.begin(ShapeRenderer.ShapeType.Filled);
-        shapes.circle(tp.x, tp.y, 0.35f, 16);
+        shapes.circle(tp.x, tp.y, 0.1f, 32);
         shapes.end();
     }
 
@@ -67,7 +72,7 @@ public class BreakOutScreen  extends GlobalScreen implements InputProcessor {
     boolean dragging;
     @Override
     public boolean mouseMoved (int screenX, int screenY) {
-        Tools.debug("mouvement");
+        Tools.debug("mouvement "+screenX+"/"+screenY);
         // we can also handle mouse movement without anything pressed
 		camera.unproject(tp.set(screenX, screenY, 0));
         return false;
@@ -99,7 +104,9 @@ public class BreakOutScreen  extends GlobalScreen implements InputProcessor {
     }
 }
 
-/*
+ */
+////////////////////////////////////////////////////////////////////////
+
 public class BreakOutScreen extends GlobalScreen implements InputProcessor {
     private BreakOut _breakOut=null;
 
@@ -122,8 +129,8 @@ public class BreakOutScreen extends GlobalScreen implements InputProcessor {
         _multiplexer.addProcessor(_stage);
         Gdx.input.setInputProcessor(_multiplexer);
 
-        //_breakOut=new BreakOut();
-        //_breakOut.init();
+        _breakOut=new BreakOut();
+        _breakOut.init();
 
         buildGame();
 
@@ -134,12 +141,13 @@ public class BreakOutScreen extends GlobalScreen implements InputProcessor {
     }
 
     public void update(float delta) {
-
+        _breakOut.update(delta);
     }
 
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(this);
     }
 
     @Override
@@ -152,7 +160,7 @@ public class BreakOutScreen extends GlobalScreen implements InputProcessor {
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.8f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        //_breakOut.render(batch);
+        _breakOut.render(batch);
 
         batch.end();
 
@@ -169,13 +177,11 @@ public class BreakOutScreen extends GlobalScreen implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        Tools.debug("touche clavier down");
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        Tools.debug("touche clavier up");
         return false;
     }
 
@@ -192,7 +198,6 @@ public class BreakOutScreen extends GlobalScreen implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        Tools.debug("touchup position "+screenX+" / "+screenY);
         return false;
     }
 
@@ -203,7 +208,7 @@ public class BreakOutScreen extends GlobalScreen implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        Tools.debug("mouse moved position "+screenX+" / "+screenY);
+        _breakOut.setPositionX(screenX);
         return false;
     }
 
@@ -212,4 +217,3 @@ public class BreakOutScreen extends GlobalScreen implements InputProcessor {
         return false;
     }
 }
-*/

@@ -20,7 +20,7 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
     private Sprite cube, empty, piece;
     private int _spriteWidth=20, _spriteHeight=20;
     private float _timer=0f, _duration=3f, _currentDuration=3f, _moveTimer=0, _moveDownTimer=0;
-    private boolean _moveDown=false, _moveLeft=false, _moveRight=false;
+    private boolean _moveDown=false, _moveLeft=false, _moveRight=false, _highscore=true;
 
     public GridScreen(ScreenManager manager) {
         _manager=manager;
@@ -150,6 +150,10 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
         _tetriUI.finalScore(delta);
 
         // @TODO ajouter les high scores
+        if (_highscore) {
+            HighScores highScores = new HighScores(_tetriUI.getScoring());
+            _highscore=false;
+        }
     }
 
     @Override

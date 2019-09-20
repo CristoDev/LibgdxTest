@@ -117,4 +117,10 @@ public class TetrisUI extends MenuUI {
         _stage.draw();
     }
 
+    public String getScoring() {
+        return _score+";"+_level+";"+_lines;
+    }
+
+
+
 }

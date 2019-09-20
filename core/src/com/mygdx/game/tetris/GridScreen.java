@@ -123,6 +123,16 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
 
     @Override
     public void render(float delta) {
+        if (_tetriUI.isPause()) {
+            pause(delta);
+            return ;
+        }
+
+        if (_tetriUI.isReset()) {
+            initGridScreen();
+            return ;
+        }
+
         if (_grid.isGameOver()) {
             gameOver(delta);
             return;
@@ -144,12 +154,19 @@ public class GridScreen extends GlobalScreen implements InputProcessor {
         _tetriUI.render(delta);
     }
 
+    private void pause(float delta) {
+        Gdx.gl.glClearColor(0.6f, 0.6f, 0.8f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        _tetriUI.render(delta);
+    }
+
+
     private void gameOver(float delta) {
         Gdx.gl.glClearColor(0.7f, 0.1f, 0.1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         _tetriUI.finalScore(delta);
 
-        // @TODO ajouter les high scores
         if (_highscore) {
             HighScores highScores = new HighScores(_tetriUI.getScoring());
             _highscore=false;

@@ -1,12 +1,20 @@
 package com.mygdx.game.tetris;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.mygdx.game.ScreenManager;
+import com.mygdx.game.Tools;
 import com.mygdx.game.screens.MenuUI;
 
 import java.util.Map;
@@ -18,6 +26,7 @@ public class TetrisUI extends MenuUI {
     private Label _scoreLabel, _linesLabel, _levelLabel, _statsSommeLabel;
     private Map<String, Label> _statsLabel=new TreeMap<>();
     private Table _infos, _stats;
+    private boolean isPause=false, isReset=false;
 
     private final static String STATUSUI_TEXTURE_ATLAS_PATH = "gui/ui_rpg.pack";
     private final static String STATUSUI_SKIN_PATH = "gui/ui_rpg.json";
@@ -26,7 +35,6 @@ public class TetrisUI extends MenuUI {
 
     public TetrisUI(ScreenManager manager) {
         super(manager);
-        addMenuButton();
         addUI();
     }
 
@@ -45,6 +53,9 @@ public class TetrisUI extends MenuUI {
 
         _stage.addActor(_infos);
         _infos.setPosition(50, 500);
+
+        addMenuButton();
+        addButtons();
     }
 
     public void addStats(Map<String, Integer> stats, int statsSomme) {
@@ -121,6 +132,67 @@ public class TetrisUI extends MenuUI {
         return _score+";"+_level+";"+_lines;
     }
 
+    protected void addButtons() {
+        NinePatch patch = new NinePatch(new Texture(Gdx.files.internal("gui/my_window_alt.9.png")), 14, 14, 14, 14);
+        NinePatchDrawable patchDrawable=new NinePatchDrawable(patch);
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(patchDrawable, patchDrawable, patchDrawable, new BitmapFont());
+
+        TextButton buttonPause = new TextButton("Pause", style);
+        buttonPause.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                isPause=true;
+
+            }
+        });
+        buttonPause.setPosition(400, 0);
+        _stage.addActor(buttonPause);
+
+        TextButton buttonReset = new TextButton("Reset", style);
+        buttonReset.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                isReset=true;
+
+            }
+        });
+        buttonReset.setPosition(300, 0);
+        _stage.addActor(buttonReset);
+
+        TextButton buttonContinue = new TextButton("Continue", style);
+        buttonContinue.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                isPause=false;
+            }
+        });
+        buttonContinue.setPosition(500, 0);
+        _stage.addActor(buttonContinue);
+
+    }
+
+    public boolean isPause() {
+        return isPause;
+    }
+
+    public boolean isReset() {
+        return isReset;
+    }
 
 
 }

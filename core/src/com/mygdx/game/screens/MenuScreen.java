@@ -22,11 +22,11 @@ public class MenuScreen extends GlobalScreen {
         NinePatchDrawable patchDrawable=new NinePatchDrawable(patch);
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(patchDrawable, patchDrawable, patchDrawable, new BitmapFont());
 
-        TextButton barScreen = new TextButton("Bars", style);
-        barScreen.setPosition(600, 0);
-        _stage.addActor(barScreen);
+        TextButton breakOutScreenButton = new TextButton("BreakOut", style);
+        breakOutScreenButton.setPosition(600, 0);
+        _stage.addActor(breakOutScreenButton);
 
-        barScreen.addListener(new ClickListener() {
+        breakOutScreenButton.addListener(new ClickListener() {
                                         @Override
                                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                             return true;
@@ -34,7 +34,7 @@ public class MenuScreen extends GlobalScreen {
 
                                         @Override
                                         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                            //_manager.setScreen(_manager.getScreenType(ScreenManager.ScreenType.BarScreen));
+                                            _manager.setScreen(_manager.getScreenType(ScreenManager.ScreenType.BreakOutScreen));
                                         }
                                     }
         );

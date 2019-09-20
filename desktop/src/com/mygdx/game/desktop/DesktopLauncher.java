@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mygdx.game.ScreenManager;
+import com.mygdx.game.screens.BreakOutScreen;
 
 
 public class DesktopLauncher {
@@ -16,14 +17,9 @@ public class DesktopLauncher {
 		config.width=800;
 		config.height=600;
 
-		//Application app=new LwjglApplication(new ImageApplication(), config);
 		Application app=new LwjglApplication(new ScreenManager(), config);
 
 		Gdx.app=app;
-		//Gdx.app.setLogLevel(Application.LOG_INFO);
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
-		//Gdx.app.setLogLevel(Application.LOG_ERROR);
-		//Gdx.app.setLogLevel(Application.LOG_NONE);
-		//Gdx.app.debug(TAG, "");
 	}
 }

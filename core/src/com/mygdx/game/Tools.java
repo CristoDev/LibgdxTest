@@ -47,4 +47,8 @@ public class Tools {
     public static void debug(String TAG, String message) {
         Gdx.app.debug(TAG, message);
     }
+
+    public static void debug(String message) {
+        Gdx.app.debug("DEBUG", message);
+    }
 }

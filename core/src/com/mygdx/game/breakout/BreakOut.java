@@ -1,21 +1,28 @@
 package com.mygdx.game.breakout;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.math.Vector2;
 
 public class BreakOut {
-    private static final String ATLAS="breakout/breakout.atlas";
+    private static final String ATLAS="breakout/breakout.pack";
 
-    private Image paddle;
+    private Sprite paddle;
+    private Vector2 paddlePosition=new Vector2(100, 50);
 
     public BreakOut() {
 
     }
 
-    private void init() {
+    public void init() {
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal(ATLAS));
-        paddle=new Image(atlas.findRegion("paddle_11"));
-        paddle.setPosition(100, 300);
+        paddle=new Sprite(atlas.findRegion("paddleBlu"));
+        paddle.setPosition(paddlePosition.x, paddlePosition.y);
+    }
+
+    public void render(SpriteBatch batch) {
+        paddle.draw(batch);
     }
 }

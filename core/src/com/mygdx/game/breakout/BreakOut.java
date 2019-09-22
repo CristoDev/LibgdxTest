@@ -5,28 +5,40 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Tools;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
 
 public class BreakOut {
     private static final String ATLAS="breakout/breakout.pack";
 
-    private Sprite paddle, ball;
+    private Sprite paddle;
     private Vector2 paddlePosition=new Vector2(100, 50);
-    private Vector2 ballPosition=new Vector2(400, 300);
-    private Vector2 ballSpeed=new Vector2(-2f, -2f);
+    private Ball _ball;
+
     private float paddleWidth, paddleHeight, windowWidth, windowHeight, ballWidth, ballHeight, ballRadius;
     private Rectangle paddleBoundingBox=new Rectangle();
-    private Rectangle ballBoundingBox=new Rectangle();
     private TextureAtlas atlas;
     private ArrayList<Brick> bricks=new ArrayList<Brick>();
+
+
+
+
+
+    /*
+    @TODO
+    - classe Paddle
+    - ajouter une zone pour le jeu a l'crean afin d'avoir le score qq part
+    - ajouter les points de vie aux briques (verifier itr.remove)
+    - mettredes briques en fonction de la largeur
+    - utiliser un tableau pour les briques au lieu des coordonnees
+    - ajouter une vitesse pour la balle et le paddle (en fonction de la souris)
+    - gestion des bonus, tirs, balles multiples
+    - modifier trajectoire en fonction du rebond sur le paddle (limite gauche et droite)
+     */
 
     public BreakOut() {
         windowWidth=Gdx.graphics.getWidth();
@@ -50,138 +62,60 @@ public class BreakOut {
     }
 
     private void createBall() {
-        TextureRegion texture=atlas.findRegion("ballGrey");
-        ball=new Sprite(texture);
-        ballWidth=texture.getRegionWidth();
-        ballHeight=texture.getRegionHeight();
-        ballRadius=ballWidth/2;
-
-        ball.setPosition(ballPosition.x, ballPosition.y);
+        _ball=new Ball(new Vector2(400, 300), new Vector2(-2f, -2f));
     }
 
     private void createBrick() {
-        for (int i=0; i<5; i++) {
+        for (int i=0; i<10; i++) {
             // @todo modifier la position pour prendre un tableau (le reste doit etre fait dans la classe brick)
             Brick brick=new Brick("green", new Vector2(64*(i+1), 500));
+            bricks.add(brick);
+            brick=new Brick("purple", new Vector2(64*(i+1), 532));
             bricks.add(brick);
         }
     }
 
-    private void ballCollisionX() {
-        ballSpeed.x*=-1;
-    }
-
-    private void ballCollisionY() {
-        ballSpeed.y*=-1;
-    }
 
 
 
     private void ballCollision() {
-        if (ball.getX() < 0 || ball.getX()+ballWidth > windowWidth) {
-            ballCollisionX();
+        if (_ball.wallCollision(windowWidth, windowHeight)) {
+            return ;
         }
 
-        if (ball.getY() < 0 || ball.getY()+ballHeight > windowHeight) {
-            ballCollisionY();
-        }
+        if (_ball.elementCollision(paddleBoundingBox)) {
 
-        if (ballBoundingBox.overlaps(paddleBoundingBox)) {
-            Tools.debug("collision");
-
-            Tools.debug(ballBoundingBox.x+"/"+ballBoundingBox.y+" -> "+(ballBoundingBox.x+ballBoundingBox.width)+"/"+(ballBoundingBox.y+ballBoundingBox.height));
-            Tools.debug(paddleBoundingBox.x+"/"+paddleBoundingBox.y+" -> "+(paddleBoundingBox.x+paddleBoundingBox.width)+"/"+(paddleBoundingBox.y+paddleBoundingBox.height));
-
-            /*
-            if (paddleBoundingBox.contains(new Vector2(ball.getX(), ball.getY()))) {
-                Tools.debug("collsion sur X");
-                ballCollisionX();
-            }
-            else {
-                Tools.debug("collsion sur Y ------");
-                ballCollisionY();
-            }
-*/
-            ballCollisionY();
-
+            return ;
         }
 
         Iterator itr = bricks.iterator();
         while (itr.hasNext()) {
             Brick brick = (Brick)itr.next();
-            if (ballBoundingBox.overlaps(brick.getBoundingBox())) {
+
+            if (_ball.elementCollision(brick.getBoundingBox())) {
                 Tools.debug("collision avec une brique --- changement de direction à faire");
                 itr.remove();
                 break;
             }
         }
 
-
-        /*
-        by+vy < paddle y --> collision y
-
-        bx+vx < paddle x --> collision x
-        ...
-
-         */
-        /*
-        for (int i = 0; i < Commons.N_OF_BRICKS; i++) {
-
-            if ((ball.getRect()).intersects(bricks[i].getRect())) {
-
-                int ballLeft = (int) ball.getRect().getMinX();
-                int ballHeight = (int) ball.getRect().getHeight();
-                int ballWidth = (int) ball.getRect().getWidth();
-                int ballTop = (int) ball.getRect().getMinY();
-
-                var pointRight = new Point(ballLeft + ballWidth + 1, ballTop);
-                var pointLeft = new Point(ballLeft - 1, ballTop);
-                var pointTop = new Point(ballLeft, ballTop - 1);
-                var pointBottom = new Point(ballLeft, ballTop + ballHeight + 1);
-
-                if (!bricks[i].isDestroyed()) {
-
-                    if (bricks[i].getRect().contains(pointRight)) {
-
-                        ball.setXDir(-1);
-                    } else if (bricks[i].getRect().contains(pointLeft)) {
-
-                        ball.setXDir(1);
-                    }
-
-                    if (bricks[i].getRect().contains(pointTop)) {
-
-                        ball.setYDir(1);
-                    } else if (bricks[i].getRect().contains(pointBottom)) {
-
-                        ball.setYDir(-1);
-                    }
-
-                    bricks[i].setDestroyed(true);
-                }
-            }
-        }
-
-
-         */
     }
 
     public void updateBoundingBox() {
         paddleBoundingBox.set(paddle.getX(), paddle.getY(), paddleWidth, paddleHeight);
-        //ballBoundingBox.set(ball.getX()+ballSpeed.x, ball.getY()+ballSpeed.y, ballWidth, ballHeight);
-        ballBoundingBox.set(ball.getX(), ball.getY(), ballWidth, ballHeight);
+        _ball.updateBoundingBox();
     }
 
     public void update(float delta) {
         updateBoundingBox();
         ballCollision();
-        ball.setPosition(ball.getX()+ballSpeed.x, ball.getY()+ballSpeed.y);
+        _ball.setPositionBySpeed();
 
     }
 
     public void render(SpriteBatch batch) {
         paddle.draw(batch);
-        ball.draw(batch);
+        _ball.render(batch);
 
         for (int i=0; i<bricks.size(); i++) {
             bricks.get(i).render(batch);

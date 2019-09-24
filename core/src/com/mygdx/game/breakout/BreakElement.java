@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Tools;
@@ -17,6 +18,7 @@ public class BreakElement {
     protected Sprite _sprite=null;
     protected Rectangle _boundingBox=new Rectangle(), _boundingBoxX=new Rectangle(), _boundingBoxY=new Rectangle();
     protected Movement _movement=Movement.STATIC;
+    protected int _health=1;
 
     public enum Movement {
         STATIC,
@@ -40,7 +42,6 @@ public class BreakElement {
         _sprite.setPosition(_position.x, _position.y);
 
         initBoundingBoxes();
-        Tools.debug("width: "+_width);
     }
 
     protected void init(String region, Vector2 position, Movement movement) {
@@ -66,6 +67,14 @@ public class BreakElement {
 
     public float getY() {
         return _sprite.getY();
+    }
+
+    public float getWidth() {
+        return _width;
+    }
+
+    public float getHeight() {
+        return _height;
     }
 
     public void setSpeedCollisionX() {
@@ -106,6 +115,51 @@ public class BreakElement {
 
         if (_sprite.getY() < 0 || _sprite.getY() + _height > windowHeight) {
             setSpeedCollisionY();
+
+            if (_sprite.getY() < 0) {
+                decreaseHealth(getHealth());
+            }
+
+            result=true;
+        }
+
+        return result;
+    }
+
+    public boolean paddleCollision(Rectangle rectangle)  {
+        boolean result=false;
+
+        if (_boundingBoxX.overlaps(rectangle)) {
+            //setSpeedCollisionX();
+            result=true;
+        }
+
+        if (_boundingBoxY.overlaps(rectangle)) {
+            float max=rectangle.getX()+3*rectangle.getWidth()/4;
+            float min=rectangle.getX()+rectangle.getWidth()/4;
+            float ballCenter=_boundingBoxY.getX()+_boundingBoxY.getWidth()/2;
+
+            if ((ballCenter < min) || (ballCenter > max)) {
+                if (Math.abs(_speed.x) > Math.abs(_speed.y)) {
+                    setSpeedCollisionX();
+                    setSpeedCollisionY();
+                }
+                else {
+                    float tmp = Math.abs(_speed.x);
+
+                    if (ballCenter < min) {
+                        _speed.x = _speed.y;
+                    } else {
+                        _speed.x = Math.abs(_speed.y);
+                    }
+
+                    _speed.y = tmp;
+                }
+            }
+            else {
+                setSpeedCollisionY();
+            }
+
             result=true;
         }
 
@@ -113,22 +167,41 @@ public class BreakElement {
     }
 
 
+
     public boolean elementCollision(Rectangle rectangle) {
         boolean result=false;
 
         if (_boundingBoxX.overlaps(rectangle)) {
             setSpeedCollisionX();
-            Tools.debug("collision sur X");
             result=true;
         }
 
         if (_boundingBoxY.overlaps(rectangle)) {
             setSpeedCollisionY();
-            Tools.debug("collision sur Y");
             result=true;
         }
 
         return result;
+    }
+
+    public int getHealth() {
+        return _health;
+    }
+
+    public void decreaseHealth() {
+        decreaseHealth(1);
+    }
+
+    public void decreaseHealth(int amount) {
+        _health-=amount;
+    }
+
+    public boolean isDestroyed() {
+        return (_health<=0);
+    }
+
+    public void setPosition(float x, float y) {
+        _sprite.setPosition(x, y);
     }
 
     public void update(float delta) {

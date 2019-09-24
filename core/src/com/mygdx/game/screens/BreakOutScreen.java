@@ -3,112 +3,27 @@ package com.mygdx.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mygdx.game.ScreenManager;
 import com.mygdx.game.Tools;
 import com.mygdx.game.breakout.BreakOut;
 
-/*
-public class BreakOutScreen  extends GlobalScreen implements InputProcessor {
-    private OrthographicCamera camera;
-    private ExtendViewport viewport;
-    private ShapeRenderer shapes;
-
-    public final static float SCALE = 32f;
-    public final static float INV_SCALE = 1.f/SCALE;
-    // this is our "target" resolution, not that the window can be any size, it is not bound to this one
-    public final static float VP_WIDTH = 1280 * INV_SCALE;
-    public final static float VP_HEIGHT = 720 * INV_SCALE;
-
-    public BreakOutScreen(ScreenManager manager) {
-        _manager=manager;
-        init();
-    }
-
-    public void init() {
-        camera = new OrthographicCamera();
-        viewport = new ExtendViewport(VP_WIDTH, VP_HEIGHT, camera);
-        shapes = new ShapeRenderer();
-        Gdx.input.setInputProcessor(this);
-
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
-    }
-
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        shapes.setProjectionMatrix(camera.combined);
-        shapes.begin(ShapeRenderer.ShapeType.Filled);
-        shapes.circle(tp.x, tp.y, 0.1f, 32);
-        shapes.end();
-    }
-
-    Vector3 tp = new Vector3();
-    boolean dragging;
-    @Override
-    public boolean mouseMoved (int screenX, int screenY) {
-        Tools.debug("mouvement "+screenX+"/"+screenY);
-        // we can also handle mouse movement without anything pressed
-		camera.unproject(tp.set(screenX, screenY, 0));
-        return false;
-    }
-
-    @Override
-    public boolean touchDown (int screenX, int screenY, int pointer, int button) {
-        return true;
-    }
-
-    @Override
-    public boolean touchDragged (int screenX, int screenY, int pointer) {
-        return true;
-    }
-
-    @Override
-    public boolean touchUp (int screenX, int screenY, int pointer, int button) {
-        return true;
-    }
-
-    @Override public void dispose () {
-        // disposable stuff must be disposed
-        shapes.dispose();
-    }
-
-    @Override
-    public void show() {
-        Gdx.input.setInputProcessor(this);
-    }
-}
-
- */
-////////////////////////////////////////////////////////////////////////
-
 public class BreakOutScreen extends GlobalScreen implements InputProcessor {
     private BreakOut _breakOut=null;
+    private Table _table;
+
+    private final static String STATUSUI_TEXTURE_ATLAS_PATH = "gui/ui_rpg.pack";
+    private final static String STATUSUI_SKIN_PATH = "gui/ui_rpg.json";
+    private static TextureAtlas STATUSUI_TEXTUREATLAS = new TextureAtlas(STATUSUI_TEXTURE_ATLAS_PATH);
+    private static Skin STATUSUI_SKIN = new Skin(Gdx.files.internal(STATUSUI_SKIN_PATH), STATUSUI_TEXTUREATLAS);
 
     public BreakOutScreen(ScreenManager manager) {
         _manager=manager;
@@ -129,14 +44,38 @@ public class BreakOutScreen extends GlobalScreen implements InputProcessor {
         _multiplexer.addProcessor(_stage);
         Gdx.input.setInputProcessor(_multiplexer);
 
-        _breakOut=new BreakOut();
-        _breakOut.init();
-
+        initInterface();
+        buildInterface();
         buildGame();
 
     }
 
     private void buildGame() {
+        _breakOut=new BreakOut();
+        _breakOut.init();
+
+    }
+
+    private void initInterface() {
+        _table=new Table();
+        //_table.defaults().expand().fill();
+
+        Pixmap bgPixmap = new Pixmap(1,1, Pixmap.Format.RGB565);
+        bgPixmap.setColor(Color.BLACK);
+        bgPixmap.fill();
+        _table.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(bgPixmap))));
+
+        _table.setPosition(640, 0);
+        _table.pack();
+        _stage.addActor(_table);
+
+        _table.setSize(160, 600);
+
+    }
+
+    private void buildInterface() {
+        Label _scoreLabel = new Label("Score, vie\n, niveau ", STATUSUI_SKIN);
+        _table.add(_scoreLabel);
 
     }
 
@@ -161,6 +100,7 @@ public class BreakOutScreen extends GlobalScreen implements InputProcessor {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         _breakOut.render(batch);
+
 
         batch.end();
 

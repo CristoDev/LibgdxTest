@@ -131,6 +131,9 @@ public class BreakElement {
         return result;
     }
 
+    public void update(float delta) {
+
+    }
 
     public void render(SpriteBatch batch) {
         _sprite.draw(batch);

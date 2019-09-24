@@ -109,8 +109,8 @@ public class BreakOut {
     public void update(float delta) {
         updateBoundingBox();
         ballCollision();
+        _ball.update(delta);
         _ball.setPositionBySpeed();
-
     }
 
     public void render(SpriteBatch batch) {

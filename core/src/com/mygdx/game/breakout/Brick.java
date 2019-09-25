@@ -13,6 +13,13 @@ public class Brick extends BreakElement {
         _health=health;
 
         init("element_" + _color + "_rectangle", position, Movement.STATIC);
+    }
+
+    public Brick(Vector2 position, int health) {
+        _color=colors[MathUtils.random(colors.length-1)];
+        _health=health;
+
+        init("element_"+_color+"_rectangle", position, Movement.STATIC);
 
     }
 

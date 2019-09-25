@@ -18,7 +18,7 @@ public class BreakElement {
     protected Sprite _sprite=null;
     protected Rectangle _boundingBox=new Rectangle(), _boundingBoxX=new Rectangle(), _boundingBoxY=new Rectangle();
     protected Movement _movement=Movement.STATIC;
-    protected int _health=1;
+    protected int _health=1, _points=1;
 
     public enum Movement {
         STATIC,
@@ -184,6 +184,10 @@ public class BreakElement {
         return result;
     }
 
+    public void setHealth(int health) {
+        _health=health;
+    }
+
     public int getHealth() {
         return _health;
     }
@@ -198,6 +202,10 @@ public class BreakElement {
 
     public boolean isDestroyed() {
         return (_health<=0);
+    }
+
+    public int getPoints() {
+        return _points;
     }
 
     public void setPosition(float x, float y) {

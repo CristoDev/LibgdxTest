@@ -46,6 +46,7 @@ public class BreakOut {
     }
 
     private void createBrick() {
+        /*
         for (int cols=0; cols<bricksCols; cols++) {
             Brick brick=new Brick("green", new Vector2(64, playZoneHeight-brickHeight*cols));
             bricks.add(brick);
@@ -56,6 +57,15 @@ public class BreakOut {
             bricks.add(brick);
 
         }
+
+         */
+
+        for (int row=0; row<bricksRows; row++) {
+            for (int col=0; col<bricksCols; col++) {
+                bricks.add(new Brick(new Vector2(col*brickWidth, playZoneHeight-brickHeight*row), 1));
+            }
+        }
+
     }
 
     public void paddleCollision() {

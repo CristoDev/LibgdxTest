@@ -10,6 +10,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Tools;
 
+import javax.tools.Tool;
+
 public class BreakElement {
     protected static final String ATLAS="breakout/breakout.pack";
     protected static TextureAtlas atlas=new TextureAtlas(Gdx.files.internal(ATLAS));
@@ -95,16 +97,14 @@ public class BreakElement {
         _boundingBoxY.set(_sprite.getX(), _sprite.getY()+_speed.y, _width, _height);
     }
 
-    // @TODO refaire le calcul pour partir du milieu du rectangle
-    public void setBoundingBoxSize(float width, float height) {
-        _boundingBox.setSize(width, height);
-    }
-
     public void setPositionBySpeed() {
         _sprite.setPosition(_sprite.getX()+_speed.x, _sprite.getY()+_speed.y);
     }
 
-
+    public void setSpeed(float amount) {
+        _speed.x*=amount;
+        _speed.y*=amount;
+    }
 
     public boolean wallCollision(float windowWidth, float windowHeight) {
         boolean result=false;
@@ -129,22 +129,34 @@ public class BreakElement {
     public boolean paddleCollision(Rectangle rectangle)  {
         boolean result=false;
 
+        // element qui passe sous le paddle, il n'est plus utilisable (bonus/ball...)
+        if (_boundingBox.y-_boundingBox.height/2 < rectangle.y) {
+            return true;
+        }
+
         if (_boundingBoxX.overlaps(rectangle)) {
-            //setSpeedCollisionX();
             result=true;
         }
 
         if (_boundingBoxY.overlaps(rectangle)) {
+            if (_speed.y > 0) {
+                return true;
+            }
+
             float max=rectangle.getX()+3*rectangle.getWidth()/4;
             float min=rectangle.getX()+rectangle.getWidth()/4;
             float ballCenter=_boundingBoxY.getX()+_boundingBoxY.getWidth()/2;
 
+            // @todo verifier que tout fonctionne bien
             if ((ballCenter < min) || (ballCenter > max)) {
+                /*
                 if (Math.abs(_speed.x) > Math.abs(_speed.y)) {
+                    Tools.debug("in if");
                     setSpeedCollisionX();
                     setSpeedCollisionY();
                 }
                 else {
+                    */
                     float tmp = Math.abs(_speed.x);
 
                     if (ballCenter < min) {
@@ -153,11 +165,15 @@ public class BreakElement {
                         _speed.x = Math.abs(_speed.y);
                     }
 
+                    _speed.x+=Math.signum(_speed.x)/2;
                     _speed.y = tmp;
-                }
+                //}
             }
             else {
                 setSpeedCollisionY();
+                // changement de vitesse pour plus d'effet
+                _speed.y+=Math.signum(_speed.y)/2;
+                //_speed.x+= Math.signum(_speed.x);
             }
 
             result=true;
@@ -165,8 +181,6 @@ public class BreakElement {
 
         return result;
     }
-
-
 
     public boolean elementCollision(Rectangle rectangle) {
         boolean result=false;

@@ -23,13 +23,7 @@ public class BreakOut {
     private ArrayList<Bonus> bonus=new ArrayList<Bonus>();
     private int bricksCols=10, bricksRows=15, brickWidth=64, brickHeight=32;
 
-    private ShapeRenderer shapeRenderer;
-
-    /*
-    @TODO
-    - ajouter une vitesse pour le paddle (en fonction de la souris)
-    - gestion des bonus, tirs
-     */
+    //@TODO gestion des tirs
 
     public BreakOut() {
         windowWidth=Gdx.graphics.getWidth();
@@ -40,8 +34,8 @@ public class BreakOut {
 
     public void init() {
         _paddle=new Paddle(new Vector2(100, 50));
-        _balls.add(new Ball(new Vector2(400, 300), new Vector2(-2f, -2f)));
-        _balls.add(new Ball(new Vector2(400, 300), new Vector2(3f, 3.5f)));
+        _balls.add(new Ball(new Vector2(400, 300)));
+        _balls.add(new Ball(new Vector2(400, 300)));
         createBrick();
     }
 
@@ -57,11 +51,10 @@ public class BreakOut {
             bricks.add(brick);
 
         }
-
          */
 
         for (int row=0; row<bricksRows; row++) {
-            for (int col=0; col<bricksCols; col++) {
+            for (int col=0; col<2; col++) {
                 bricks.add(new Brick(new Vector2(col*brickWidth, playZoneHeight-brickHeight*row), 1));
             }
         }
@@ -70,6 +63,7 @@ public class BreakOut {
 
     public void paddleCollision() {
         _paddle.wallCollision(playZoneWidth, playZoneHeight);
+        _paddle.setPositionBySpeed();
     }
 
     private void checkBalls() {
@@ -97,21 +91,19 @@ public class BreakOut {
         }
 
         if (_ball.paddleCollision(_paddle.getBoundingBox())) {
-        //if (_ball.elementCollision(paddleBoundingBox)) {
-
             return ;
         }
 
         Iterator itr = bricks.iterator();
         while (itr.hasNext()) {
             Brick brick = (Brick)itr.next();
-
             if (_ball.elementCollision(brick.getBoundingBox())) {
                 brick.decreaseHealth();
                 if (brick.isDestroyed()) {
                     if (brick.showBonus()) {
                         bonus.add(new Bonus(brick.getColor(), brick._position, 3));
                     }
+                    _ball.setSpeed(1.02f);
                     itr.remove();
                 }
 
@@ -127,6 +119,9 @@ public class BreakOut {
 
             if (b.paddleCollision(_paddle.getBoundingBox())) {
                 Tools.debug("bonus obtenu");
+                itr.remove();
+            }
+            else if (b.getY() < 0) {
                 itr.remove();
             }
 
@@ -170,7 +165,7 @@ public class BreakOut {
 
     public void setPositionX(int x) {
         if ((x-_paddle.getWidth()/2 > -5) && (x+_paddle.getWidth()/2 < playZoneWidth+5)) {
-            _paddle.setPosition(x - _paddle.getWidth() / 2, _paddle.getY());
+            _paddle.setPosition(x-_paddle.getWidth()/2, _paddle.getY());
         }
     }
 

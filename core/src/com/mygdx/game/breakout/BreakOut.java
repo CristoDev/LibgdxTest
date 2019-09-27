@@ -1,13 +1,7 @@
 package com.mygdx.game.breakout;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Tools;
 
@@ -17,13 +11,12 @@ import java.util.Iterator;
 public class BreakOut {
     private Paddle _paddle;
     private ArrayList<Ball> _balls=new ArrayList<Ball>();
+    private ArrayList<Shoot> _shoots=new ArrayList<>();
 
     private float windowWidth, windowHeight, playZoneWidth, playZoneHeight;
     private ArrayList<Brick> bricks=new ArrayList<Brick>();
     private ArrayList<Bonus> bonus=new ArrayList<Bonus>();
     private int bricksCols=10, bricksRows=15, brickWidth=64, brickHeight=32;
-
-    //@TODO gestion des tirs
 
     public BreakOut() {
         windowWidth=Gdx.graphics.getWidth();
@@ -37,6 +30,9 @@ public class BreakOut {
         _balls.add(new Ball(new Vector2(400, 300)));
         _balls.add(new Ball(new Vector2(400, 300)));
         createBrick();
+
+        new Level(bricksCols, bricksRows);
+        // @todo recupere les donnees de Level pour creer le niveau courant
     }
 
     private void createBrick() {
@@ -118,7 +114,7 @@ public class BreakOut {
             Bonus b=(Bonus)itr.next();
 
             if (b.paddleCollision(_paddle.getBoundingBox())) {
-                Tools.debug("bonus obtenu");
+                _shoots.add(new Shoot(_paddle.getPosition(), 5f));
                 itr.remove();
             }
             else if (b.getY() < 0) {
@@ -126,6 +122,49 @@ public class BreakOut {
             }
 
             b.setPositionBySpeed();
+        }
+    }
+
+    private boolean shootCollision(Shoot shoot) {
+        Iterator itr = bricks.iterator();
+        boolean result=false;
+
+        while (itr.hasNext()) {
+            Brick brick = (Brick)itr.next();
+            if (shoot.elementCollision(brick.getBoundingBox())) {
+                brick.decreaseHealth();
+                if (brick.isDestroyed()) {
+                    if (brick.showBonus()) {
+                        bonus.add(new Bonus(brick.getColor(), brick._position, 3));
+                    }
+                    itr.remove();
+                }
+
+                result=true;
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    private void shootsCollision() {
+        Iterator itr = _shoots.iterator();
+        while (itr.hasNext()) {
+            Shoot s=(Shoot)itr.next();
+
+            if (s.getY() > playZoneHeight) {
+                itr.remove();
+                continue;
+            }
+            else if (shootCollision(s)) {
+                Tools.debug("brique detruite par le tir");
+                itr.remove();
+                continue;
+            }
+            else {
+                s.setPositionBySpeed();
+            }
         }
     }
 
@@ -139,6 +178,10 @@ public class BreakOut {
         for (Bonus b : bonus) {
             b.updateBoundingBox();
         }
+
+        for (Shoot s : _shoots) {
+            s.updateBoundingBox();
+        }
     }
 
     public void update(float delta) {
@@ -146,6 +189,7 @@ public class BreakOut {
         ballsCollision();
         paddleCollision();
         bonusCollision();
+        shootsCollision();
     }
 
     public void render(SpriteBatch batch) {
@@ -160,6 +204,10 @@ public class BreakOut {
 
         for (Bonus b : bonus) {
             b.render(batch);
+        }
+
+        for (Shoot s : _shoots) {
+            s.render(batch);
         }
     }
 

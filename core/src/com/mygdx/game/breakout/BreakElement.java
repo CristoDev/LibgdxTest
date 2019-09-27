@@ -5,12 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.Tools;
-
-import javax.tools.Tool;
 
 public class BreakElement {
     protected static final String ATLAS="breakout/breakout.pack";
@@ -224,6 +220,10 @@ public class BreakElement {
 
     public void setPosition(float x, float y) {
         _sprite.setPosition(x, y);
+    }
+
+    public Vector2 getPosition() {
+        return new Vector2(_sprite.getX(), _sprite.getY());
     }
 
     public void update(float delta) {

@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mygdx.game.ScreenManager;
-import com.mygdx.game.Tools;
+import com.mygdx.game.utils.Tools;
 import com.mygdx.game.breakout.BreakOut;
 
 public class BreakOutScreen extends GlobalScreen implements InputProcessor {

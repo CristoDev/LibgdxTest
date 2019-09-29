@@ -2,7 +2,8 @@ package com.mygdx.game.breakout;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.mygdx.game.Tools;
+import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.utils.Tools;
 
 import java.util.ArrayList;
 
@@ -12,15 +13,21 @@ public class Level {
     private static final String FILENAME="breakout/levels";
     private static String data=null;
     private ArrayList<String> levelData=new ArrayList<>();
+    private int _brickWidth, _brickHeight;
+    private float _playZoneHeight;
+    private ArrayList<Brick> bricks=new ArrayList<Brick>();
 
-    public Level(int cols, int rows) {
-        this(cols, rows, 1);
+    public Level(int cols, int rows, int brickWidth, int brickHeight, float playZoneHeight) {
+        this(cols, rows, brickWidth, brickHeight, playZoneHeight, 1);
     }
 
-    public Level(int cols, int rows, int level) {
+    public Level(int cols, int rows, int brickWidth, int brickHeight, float playZoneHeight, int level) {
         _cols=cols;
         _rows=rows;
         _level=level;
+        _brickHeight=brickHeight;
+        _brickWidth=brickWidth;
+        _playZoneHeight=playZoneHeight;
         init();
     }
 
@@ -35,21 +42,32 @@ public class Level {
         data = new FileHandle(FILENAME).readString();
     }
 
-    public ArrayList<String> getLevelData() {
+    public ArrayList<Brick> createLevel() {
         String token="#level_"+_level;
-        String[] tokens = data.substring(data.indexOf(token)+token.length(), data.indexOf("#"+token)).split("\r\n");
+        String[] tokens = data.substring(data.indexOf(token)+token.length(), data.indexOf("#"+token)).split("\n");
 
         for (int i=0; i<Math.min(_rows, tokens.length); i++) {
             if (tokens[i].length() == _cols) {
-                levelData.add(tokens[i]);
+                createLine(i, tokens[i]);
             }
         }
 
-        return levelData;
+        return bricks;
     }
 
     public void nextLevel() {
         _level++;
+    }
+
+    public void createLine(int row, String line) {
+        for (int col=0; col<line.length(); col++) {
+            if (line.charAt(col) == 'Z') {
+                continue ;
+            }
+            else {
+                bricks.add(new Brick(Integer.parseInt(String.valueOf(line.charAt(col))), new Vector2(col*_brickWidth, _playZoneHeight-_brickHeight*row), 1));
+            }
+        }
     }
 
 }

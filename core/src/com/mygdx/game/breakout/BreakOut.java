@@ -3,7 +3,7 @@ package com.mygdx.game.breakout;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.Tools;
+import com.mygdx.game.utils.Tools;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,6 +17,7 @@ public class BreakOut {
     private ArrayList<Brick> bricks=new ArrayList<Brick>();
     private ArrayList<Bonus> bonus=new ArrayList<Bonus>();
     private int bricksCols=10, bricksRows=15, brickWidth=64, brickHeight=32;
+    private static Level _level=null;
 
     public BreakOut() {
         windowWidth=Gdx.graphics.getWidth();
@@ -29,10 +30,10 @@ public class BreakOut {
         _paddle=new Paddle(new Vector2(100, 50));
         _balls.add(new Ball(new Vector2(400, 300)));
         _balls.add(new Ball(new Vector2(400, 300)));
-        createBrick();
+        //createBrick();
 
-        new Level(bricksCols, bricksRows);
-        // @todo recupere les donnees de Level pour creer le niveau courant
+        _level=new Level(bricksCols, bricksRows, brickWidth, brickHeight, playZoneHeight);
+        createLevel();
     }
 
     private void createBrick() {
@@ -55,6 +56,11 @@ public class BreakOut {
             }
         }
 
+    }
+
+    private void createLevel() {
+        _level.nextLevel();
+        bricks=_level.createLevel();
     }
 
     public void paddleCollision() {

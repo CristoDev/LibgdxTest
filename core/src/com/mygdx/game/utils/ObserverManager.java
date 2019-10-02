@@ -10,7 +10,7 @@ public class ObserverManager {
     private ObserverManager() {
     }
 
-    public ObserverManager getInstance() {
+    public static ObserverManager getInstance() {
         if (_manager == null) {
             _manager=new ObserverManager();
         }
@@ -19,14 +19,27 @@ public class ObserverManager {
     }
 
     public void register(Observer.ObserverEvent event, Observer observer) {
+        if (_observers.get(event) == null) {
+            _observers.put(event, new ArrayList<>());
+        }
+
         _observers.get(event).add(observer);
     }
 
     public void unregister(Observer.ObserverEvent event, Observer observer) {
+        if (_observers.get(event) == null) {
+            return ;
+        }
+
         _observers.get(event).remove(observer);
     }
 
     public void notify(Observer.ObserverEvent event, String message) {
+        if (_observers.get(event) == null) {
+            Tools.debug("NOTIFY", "personne pour "+event.name());
+            return ;
+        }
+
         for (Observer observer : _observers.get(event)) {
             observer.onNotify(event, message);
         }

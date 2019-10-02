@@ -127,7 +127,7 @@ public class BreakElement {
 
         // element qui passe sous le paddle, il n'est plus utilisable (bonus/ball...)
         if (_boundingBox.y-_boundingBox.height/2 < rectangle.y) {
-            return true;
+            return false;
         }
 
         if (_boundingBoxX.overlaps(rectangle)) {
@@ -224,10 +224,6 @@ public class BreakElement {
 
     public Vector2 getPosition() {
         return new Vector2(_sprite.getX(), _sprite.getY());
-    }
-
-    public void update(float delta) {
-
     }
 
     public void render(SpriteBatch batch) {

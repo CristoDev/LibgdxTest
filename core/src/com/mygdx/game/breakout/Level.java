@@ -43,11 +43,12 @@ public class Level {
     }
 
     public ArrayList<Brick> createLevel() {
+        Tools.debug("level "+_level);
         String token="#level_"+_level;
         String[] tokens = data.substring(data.indexOf(token)+token.length(), data.indexOf("#"+token)).split("\n");
 
         for (int i=0; i<Math.min(_rows, tokens.length); i++) {
-            if (tokens[i].length() == _cols) {
+            if (tokens[i].length() >= _cols) {
                 createLine(i, tokens[i]);
             }
         }
@@ -60,7 +61,7 @@ public class Level {
     }
 
     public void createLine(int row, String line) {
-        for (int col=0; col<line.length(); col++) {
+        for (int col=0; col<_cols; col++) {
             if (line.charAt(col) == 'Z') {
                 continue ;
             }

@@ -11,7 +11,7 @@ import java.util.Iterator;
 public class BreakOut {
     private Paddle _paddle;
     private ArrayList<Ball> _balls=new ArrayList<Ball>();
-    private ArrayList<Shoot> _shoots=new ArrayList<>();
+    private ArrayList<Shoot> _shoots=new ArrayList<Shoot>();
 
     private float windowWidth, windowHeight, playZoneWidth, playZoneHeight;
     private ArrayList<Brick> bricks=new ArrayList<Brick>();
@@ -30,32 +30,9 @@ public class BreakOut {
         _paddle=new Paddle(new Vector2(100, 50));
         _balls.add(new Ball(new Vector2(400, 300)));
         _balls.add(new Ball(new Vector2(400, 300)));
-        //createBrick();
 
         _level=new Level(bricksCols, bricksRows, brickWidth, brickHeight, playZoneHeight);
         createLevel();
-    }
-
-    private void createBrick() {
-        /*
-        for (int cols=0; cols<bricksCols; cols++) {
-            Brick brick=new Brick("green", new Vector2(64, playZoneHeight-brickHeight*cols));
-            bricks.add(brick);
-        }
-
-        for (int rows=0; rows<bricksRows; rows++) {
-            Brick brick=new Brick("yellow", new Vector2(256, playZoneHeight-brickHeight*rows));
-            bricks.add(brick);
-
-        }
-         */
-
-        for (int row=0; row<bricksRows; row++) {
-            for (int col=0; col<2; col++) {
-                bricks.add(new Brick(new Vector2(col*brickWidth, playZoneHeight-brickHeight*row), 1));
-            }
-        }
-
     }
 
     private void createLevel() {
@@ -120,7 +97,7 @@ public class BreakOut {
             Bonus b=(Bonus)itr.next();
 
             if (b.paddleCollision(_paddle.getBoundingBox())) {
-                _shoots.add(new Shoot(_paddle.getPosition(), 5f));
+                _shoots.add(new Shoot(_paddle.getPosition(), _paddle.getWidth()/2, 5f));
                 itr.remove();
             }
             else if (b.getY() < 0) {

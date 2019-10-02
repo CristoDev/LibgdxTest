@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Brick extends BreakElement {
     private String[] colors={"blue", "green", "red", "purple", "grey", "yellow"};
     private String _color=null;
-    private float bonus=15f;
+    private float bonus=100f;
 
     public Brick(String color, Vector2 position, int health) {
         _color = color;

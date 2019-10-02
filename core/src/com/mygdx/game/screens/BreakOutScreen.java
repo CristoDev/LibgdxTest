@@ -13,7 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mygdx.game.ScreenManager;
-import com.mygdx.game.utils.Tools;
+import com.mygdx.game.utils.Observer;
+import com.mygdx.game.utils.ObserverManager;
 import com.mygdx.game.breakout.BreakOut;
 
 public class BreakOutScreen extends GlobalScreen implements InputProcessor {
@@ -47,18 +48,15 @@ public class BreakOutScreen extends GlobalScreen implements InputProcessor {
         initInterface();
         buildInterface();
         buildGame();
-
     }
 
     private void buildGame() {
         _breakOut=new BreakOut();
         _breakOut.init();
-
     }
 
     private void initInterface() {
         _table=new Table();
-        //_table.defaults().expand().fill();
 
         Pixmap bgPixmap = new Pixmap(1,1, Pixmap.Format.RGB565);
         bgPixmap.setColor(Color.BLACK);
@@ -70,19 +68,16 @@ public class BreakOutScreen extends GlobalScreen implements InputProcessor {
         _stage.addActor(_table);
 
         _table.setSize(160, 600);
-
     }
 
     private void buildInterface() {
         Label _scoreLabel = new Label("Score, vie\n, niveau ", STATUSUI_SKIN);
         _table.add(_scoreLabel);
-
     }
 
     public void update(float delta) {
         _breakOut.update(delta);
     }
-
 
     @Override
     public void show() {
@@ -95,18 +90,13 @@ public class BreakOutScreen extends GlobalScreen implements InputProcessor {
 
         batch.setProjectionMatrix(_camera.combined);
         batch.begin();
-
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.8f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         _breakOut.render(batch);
-
-
         batch.end();
 
         _stage.act();
         _stage.draw();
-
     }
 
     @Override
@@ -117,11 +107,13 @@ public class BreakOutScreen extends GlobalScreen implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        ObserverManager.getInstance().notify(Observer.ObserverEvent.KEY_DOWN, Integer.toString(keycode));
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
+        ObserverManager.getInstance().notify(Observer.ObserverEvent.KEY_UP, Integer.toString(keycode));
         return false;
     }
 
@@ -132,7 +124,6 @@ public class BreakOutScreen extends GlobalScreen implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        Tools.debug("touchdown, position "+screenX+" / "+screenY);
         return false;
     }
 
@@ -148,7 +139,7 @@ public class BreakOutScreen extends GlobalScreen implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        _breakOut.setPositionX(screenX);
+        //_breakOut.setPositionX(screenX);
         return false;
     }
 

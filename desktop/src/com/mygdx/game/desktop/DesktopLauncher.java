@@ -16,14 +16,11 @@ public class DesktopLauncher {
 		config.width=800;
 		config.height=600;
 
-		//Application app=new LwjglApplication(new ImageApplication(), config);
 		Application app=new LwjglApplication(new ScreenManager(), config);
 
 		Gdx.app=app;
-		//Gdx.app.setLogLevel(Application.LOG_INFO);
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		//Gdx.app.setLogLevel(Application.LOG_ERROR);
 		//Gdx.app.setLogLevel(Application.LOG_NONE);
-		//Gdx.app.debug(TAG, "");
 	}
 }

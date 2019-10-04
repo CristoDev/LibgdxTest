@@ -50,15 +50,15 @@ public class ScreenManager extends Game {
     @Override
     public void create(){
         _menuScreen = new MenuScreen(this);
-        //_windowScreen=new WindowScreen(this);
-        //_imageScreen=new ImageScreen(this);
-        //_imageMenuScreen=new ImageMenuScreen(this);
-        //_scrollingScreen=new ScrollingScreen(this);
-        //_barScreen=new BarScreen(this);
+        _windowScreen=new WindowScreen(this);
+        _imageScreen=new ImageScreen(this);
+        _imageMenuScreen=new ImageMenuScreen(this);
+        _scrollingScreen=new ScrollingScreen(this);
+        _barScreen=new BarScreen(this);
         _gridScreen=new GridScreen(this);
-        //setScreen(_menuScreen);
-        setScreen(_gridScreen);
-        debug();
+        setScreen(_menuScreen);
+        //setScreen(_gridScreen);
+        //debug();
     }
 
     @Override

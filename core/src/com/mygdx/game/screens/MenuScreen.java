@@ -92,7 +92,7 @@ public class MenuScreen extends GlobalScreen {
         );
 
         TextButton barScreen = new TextButton("Bars", style);
-        barScreen.setPosition(600, 0);
+        barScreen.setPosition(500, 0);
         _stage.addActor(barScreen);
 
         barScreen.addListener(new ClickListener() {
@@ -110,6 +110,23 @@ public class MenuScreen extends GlobalScreen {
 
         I18nTest test=new I18nTest();
         test.run();
+
+        TextButton gridScreen = new TextButton("Tetris", style);
+        gridScreen.setPosition(600, 0);
+        _stage.addActor(gridScreen);
+
+        gridScreen.addListener(new ClickListener() {
+                                  @Override
+                                  public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                      return true;
+                                  }
+
+                                  @Override
+                                  public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                      _manager.setScreen(_manager.getScreenType(ScreenManager.ScreenType.GridScreen));
+                                  }
+                              }
+        );
     }
 
     @Override

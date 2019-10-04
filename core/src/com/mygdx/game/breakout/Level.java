@@ -12,7 +12,6 @@ public class Level {
     private static int _level=1;
     private static final String FILENAME="breakout/levels";
     private static String data=null;
-    private ArrayList<String> levelData=new ArrayList<>();
     private int _brickWidth, _brickHeight;
     private float _playZoneHeight;
     private ArrayList<Brick> bricks=new ArrayList<Brick>();

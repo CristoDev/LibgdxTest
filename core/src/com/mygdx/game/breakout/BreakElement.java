@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 public class BreakElement {
     protected static final String ATLAS="breakout/breakout.pack";
     protected static TextureAtlas atlas=new TextureAtlas(Gdx.files.internal(ATLAS));
-    protected Vector2 _position=new Vector2(0,0), _speed=new Vector2(0,0);
+    protected Vector2 _position=new Vector2(0,0), _speed=new Vector2(0,0), _speed0=new Vector2(0, 0);
     protected float _width=1, _height=1;
     protected Sprite _sprite=null;
     protected Rectangle _boundingBox=new Rectangle(), _boundingBoxX=new Rectangle(), _boundingBoxY=new Rectangle();
@@ -23,27 +23,30 @@ public class BreakElement {
         MOBILE;
     }
 
-    public BreakElement() {
-
-    }
+    public BreakElement() {}
 
     protected void init(String region, Vector2 position, Vector2 speed, Movement movement) {
+        init(region, position, speed, speed, movement);
+    }
+
+    protected void init(String region, Vector2 position, Movement movement) {
+        init(region, position, new Vector2(0, 0), movement);
+    }
+
+    protected void init(String region, Vector2 position, Vector2 speed, Vector2 speed0, Movement movement) {
         TextureRegion texture=atlas.findRegion(region);
         _width=texture.getRegionWidth();
         _height=texture.getRegionHeight();
 
         _position=position;
         _speed=speed;
+        _speed0=speed0;
         _movement=movement;
 
         _sprite=new Sprite(texture);
         _sprite.setPosition(_position.x, _position.y);
 
         initBoundingBoxes();
-    }
-
-    protected void init(String region, Vector2 position, Movement movement) {
-        init(region, position, new Vector2(0, 0), movement);
     }
 
     private void initBoundingBoxes() {

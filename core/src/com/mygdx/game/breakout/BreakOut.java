@@ -28,8 +28,7 @@ public class BreakOut {
 
     public void init() {
         _paddle=new Paddle(new Vector2(100, 50));
-        _balls.add(new Ball(new Vector2(400, 300)));
-        _balls.add(new Ball(new Vector2(400, 300)));
+        _balls.add(new Ball(new Vector2(playZoneWidth/2, 100)));
 
         _level=new Level(bricksCols, bricksRows, brickWidth, brickHeight, playZoneHeight);
         createLevel();
@@ -193,11 +192,4 @@ public class BreakOut {
             s.render(batch);
         }
     }
-
-    public void setPositionX(int x) {
-        if ((x-_paddle.getWidth()/2 > -5) && (x+_paddle.getWidth()/2 < playZoneWidth+5)) {
-            _paddle.setPosition(x-_paddle.getWidth()/2, _paddle.getY());
-        }
-    }
-
 }

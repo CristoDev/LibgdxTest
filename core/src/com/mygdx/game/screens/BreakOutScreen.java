@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -19,12 +20,16 @@ import com.mygdx.game.breakout.BreakOut;
 
 public class BreakOutScreen extends GlobalScreen implements InputProcessor {
     private BreakOut _breakOut=null;
-    private Table _table;
+    private Table _table=null;
+    private int _lives=3, _livesMax=5, _score=0;
 
     private final static String STATUSUI_TEXTURE_ATLAS_PATH = "gui/ui_rpg.pack";
     private final static String STATUSUI_SKIN_PATH = "gui/ui_rpg.json";
     private static TextureAtlas STATUSUI_TEXTUREATLAS = new TextureAtlas(STATUSUI_TEXTURE_ATLAS_PATH);
     private static Skin STATUSUI_SKIN = new Skin(Gdx.files.internal(STATUSUI_SKIN_PATH), STATUSUI_TEXTUREATLAS);
+
+    private Image[] _livesImage=null;
+    private Label _scoreLabel=null;
 
     public BreakOutScreen(ScreenManager manager) {
         _manager=manager;
@@ -64,14 +69,34 @@ public class BreakOutScreen extends GlobalScreen implements InputProcessor {
         _table.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(bgPixmap))));
 
         _table.setPosition(640, 0);
-        _table.pack();
+        _table.setSize(160, 600);
+
         _stage.addActor(_table);
 
-        _table.setSize(160, 600);
+        //_table.pack();
     }
 
     private void buildInterface() {
-        Label _scoreLabel = new Label("Score, vie\n, niveau ", STATUSUI_SKIN);
+        showLives();
+        showScore();
+    }
+
+    private void showLives() {
+        _table.row();
+        _livesImage=new Image[_lives];
+
+        TextureAtlas atlas=new TextureAtlas(Gdx.files.internal("breakout/breakout.pack"));
+
+        for (int i=0; i<Math.min(_lives, _livesMax); i++) {
+            _livesImage[i]=new Image(atlas.findRegion("ballGrey"));
+        }
+
+        _table.add(_livesImage);
+    }
+
+    private void showScore() {
+        _table.row();
+        _scoreLabel = new Label("Score: "+_score, STATUSUI_SKIN);
         _table.add(_scoreLabel);
     }
 

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.utils.Observer;
 import com.mygdx.game.utils.ObserverManager;
-import com.mygdx.game.utils.Tools;
 
 public class Paddle extends BreakElement implements Observer {
     private Vector2 speed0=new Vector2(0, 0);

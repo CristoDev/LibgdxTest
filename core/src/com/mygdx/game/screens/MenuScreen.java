@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.mygdx.game.ScreenManager;
-import com.mygdx.game.test.I18nTest;
 
 public class MenuScreen extends GlobalScreen {
 
@@ -35,98 +34,11 @@ public class MenuScreen extends GlobalScreen {
 
                                      @Override
                                      public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                         _manager.setScreen(_manager.getScreenType(ScreenManager.ScreenType.WindowScreen));
+                                         _manager.setScreen(_manager.getScreenType(ScreenManager.ScreenType.MenuScreen));
                                      }
                                  }
         );
 
-        TextButton imageScreen = new TextButton("Image application", style);
-        imageScreen.setPosition(150, 0);
-        _stage.addActor(imageScreen);
-
-        imageScreen.addListener(new ClickListener() {
-                                    @Override
-                                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                        return true;
-                                    }
-
-                                    @Override
-                                    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                        _manager.setScreen(_manager.getScreenType(ScreenManager.ScreenType.ImageScreen));
-                                    }
-                                }
-        );
-
-        TextButton imageMenuScreen = new TextButton("Image + menu", style);
-        imageMenuScreen.setPosition(300, 0);
-        _stage.addActor(imageMenuScreen);
-
-        imageMenuScreen.addListener(new ClickListener() {
-                                    @Override
-                                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                        return true;
-                                    }
-
-                                    @Override
-                                    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                        _manager.setScreen(_manager.getScreenType(ScreenManager.ScreenType.ImageMenuScreen));
-                                    }
-                                }
-        );
-
-        TextButton scrollingScreen = new TextButton("Scrolling", style);
-        scrollingScreen.setPosition(450, 0);
-        _stage.addActor(scrollingScreen);
-
-        scrollingScreen.addListener(new ClickListener() {
-                                        @Override
-                                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                            return true;
-                                        }
-
-                                        @Override
-                                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                            _manager.setScreen(_manager.getScreenType(ScreenManager.ScreenType.ScrollingScreen));
-                                        }
-                                    }
-        );
-
-        TextButton barScreen = new TextButton("Bars", style);
-        barScreen.setPosition(500, 0);
-        _stage.addActor(barScreen);
-
-        barScreen.addListener(new ClickListener() {
-                                        @Override
-                                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                            return true;
-                                        }
-
-                                        @Override
-                                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                            _manager.setScreen(_manager.getScreenType(ScreenManager.ScreenType.BarScreen));
-                                        }
-                                    }
-        );
-
-        I18nTest test=new I18nTest();
-        test.run();
-
-        TextButton gridScreen = new TextButton("Tetris", style);
-        gridScreen.setPosition(600, 0);
-        _stage.addActor(gridScreen);
-
-        gridScreen.addListener(new ClickListener() {
-                                  @Override
-                                  public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                      return true;
-                                  }
-
-                                  @Override
-                                  public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                      _manager.setScreen(_manager.getScreenType(ScreenManager.ScreenType.GridScreen));
-                                  }
-                              }
-        );
     }
 
     @Override

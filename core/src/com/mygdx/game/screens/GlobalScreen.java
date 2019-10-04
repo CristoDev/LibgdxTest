@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.ScreenManager;
-import com.mygdx.game.images.ImageBuilder;
 
 public class GlobalScreen implements Screen {
     protected ScreenManager _manager=null;

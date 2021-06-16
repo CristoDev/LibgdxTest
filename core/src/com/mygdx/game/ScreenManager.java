@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.mygdx.game.screens.*;
 import com.mygdx.game.tetris.Grid;
@@ -70,6 +71,8 @@ public class ScreenManager extends Game {
         _scrollingScreen.dispose();
         _barScreen.dispose();
         _gridScreen.dispose();
+
+        Gdx.app.exit();
     }
 
     private void debug() {

@@ -1,6 +1,5 @@
 apply plugin: "java"
 
-sourceCompatibility = 1.6
 sourceSets.main.java.srcDirs = [ "src/" ]
 
 project.ext.mainClassName = "com.mygdx.game.desktop.DesktopLauncher"
@@ -24,7 +23,7 @@ task debug(dependsOn: classes, type: JavaExec) {
 }
 
 task dist(type: Jar) {
-    from files(sourceSets.main.output.classesDir)
+    from files(sourceSets.main.output.classesDirs)
     from files(sourceSets.main.output.resourcesDir)
     from {configurations.compile.collect {zipTree(it)}}
     from files(project.assetsDir);
@@ -35,7 +34,7 @@ task dist(type: Jar) {
 }
 
 dist.dependsOn classes
-
+/*
 eclipse {
     project {
         name = appName + "-desktop"
@@ -53,3 +52,4 @@ task afterEclipseImport(description: "Post processing after project generation",
     printer.print(classpath)
   }
 }
+*/
